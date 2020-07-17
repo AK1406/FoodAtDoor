@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1027991724746",
+    "firebase_url": "https://foodatdoor-60a7e.firebaseio.com",
+    "project_id": "foodatdoor-60a7e",
+    "storage_bucket": "foodatdoor-60a7e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1027991724746:android:ba65cdcba071cb31610a33",
+        "android_client_info": {
+          "package_name": "com.example.foodatdoor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1027991724746-fer6c7ta4mnrilminfts9gai1irv3buc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.foodatdoor",
+            "certificate_hash": "19843c8f81cf52900200b6f5116a88b0c6464461"
+          }
+        },
+        {
+          "client_id": "1027991724746-ngkedfdif2a033ftthtvbno5rjualn1b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEqr4AYKPXyFQr9P16Qc1AkMzZ-kF1wKc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1027991724746-ngkedfdif2a033ftthtvbno5rjualn1b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

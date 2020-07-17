@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">FoodAtDoor</string>
+    <string name="login">Login</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="name">User Name</string>
+    <string name="phn_no">Phone No.</string>
+    <string name="create_account">Create Account</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="back">back</string>
 </resources>
