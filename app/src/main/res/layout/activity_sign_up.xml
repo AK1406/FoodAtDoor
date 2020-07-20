@@ -42,6 +42,16 @@
             android:textColorHint="#D8B5B5" />
 
         <EditText
+            android:id="@+id/address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_address"
+            android:hint="Delivery Address"
+            android:textColor="#fff"
+            android:textColorHint="#D8B5B5"
+            android:textSize="18sp" />
+
+        <EditText
             android:id="@+id/email_edt_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -59,6 +69,17 @@
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_lock"
             android:hint="@string/password"
+            android:textColor="#fff"
+            android:textColorHint="#D8B5B5"
+            android:importantForAutofill="no"
+            android:inputType="textPassword" />
+
+        <EditText
+            android:id="@+id/confirm_pass_edt_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_lock"
+            android:hint="Confirm Password"
             android:textColor="#fff"
             android:textColorHint="#D8B5B5"
             android:importantForAutofill="no"

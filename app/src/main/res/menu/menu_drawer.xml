@@ -12,15 +12,10 @@
             android:icon="@drawable/ic_profile"
             android:title="@string/profile" />
         <item
-            android:id="@+id/favourites"
-            android:icon="@drawable/ic_favourites"
-            android:title="@string/favourites" />
+            android:id="@+id/faq"
+            android:icon="@drawable/ic_faq"
+            android:title="@string/faq" />
 
-
-        <item
-            android:id="@+id/aboutApp"
-            android:icon="@drawable/ic_about_app"
-            android:title="@string/about_app" />
     </group>
     <item android:title="@string/account_setting">
         <menu>
@@ -35,6 +30,24 @@
                 android:title="@string/logout" />
         </menu>
 
+    </item>
+    <item android:title="Others">
+        <menu>
+            <item
+                android:id="@+id/share"
+                android:title="Share"
+                android:icon="@drawable/ic_share"/>
+            <item
+                android:id="@+id/rate"
+                android:title="Rate"
+                android:icon="@drawable/ic_rate"/>
+
+            <item
+                android:id="@+id/aboutApp"
+                android:icon="@drawable/ic_about_app"
+                android:title="@string/about_app" />
+
+        </menu>
     </item>
 
 </menu>

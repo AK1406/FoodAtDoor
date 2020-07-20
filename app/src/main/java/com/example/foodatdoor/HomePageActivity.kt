@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_home_page.*
@@ -36,6 +37,8 @@ class HomePageActivity : AppCompatActivity() {
     private fun initView() {
         setSupportActionBar(toolbar)   //set toolbar
         setUpDrawerLayout()  //calling function to set drawer layout
+        //bottom menu bar
+        val bottomNavigation: BottomNavigationView = findViewById(R.id.navigationView)
 
         //Load Home fragment first
         navigationPosition = R.id.dashboard
@@ -56,17 +59,26 @@ class HomePageActivity : AppCompatActivity() {
                     navigationPosition = R.id.profile
                     navigateToFragment(ProfileFragment.newInstance())
                 }
-                R.id.favourites -> {
-                    toolbar.title ="Favourites"
-                    navigationPosition = R.id.favourites
-                    navigateToFragment(FavouritesFragment.newInstance())
+                R.id.faq-> {
+                    toolbar.title ="FAQ"
+                    navigationPosition = R.id.faq
+                    navigateToFragment(FaqFragment.newInstance())
                 }
                 R.id.aboutApp -> {
                     toolbar.title = "About"
                     navigationPosition =R.id.aboutApp
                     navigateToFragment(AboutAppFragment.newInstance())
                 }
-
+                R.id.share -> {
+                    toolbar.title = "Share"
+                    navigationPosition =R.id.share
+                    //navigateToFragment(AboutAppFragment.newInstance())
+                }
+                R.id.rate -> {
+                    toolbar.title = "Rate"
+                    navigationPosition =R.id.rate
+                    //navigateToFragment(AboutAppFragment.newInstance())
+                }
                 R.id.updatePassword -> {
                     toolbar.title = getString(R.string.update_password)
                     navigationPosition = R.id.updatePassword
@@ -88,7 +100,28 @@ class HomePageActivity : AppCompatActivity() {
             drawer_layout.closeDrawers()
             true
         }
-
+/*
+        //bottom menu bar listener
+        BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_cart -> {
+                    toolbar.title = "My Cart"
+                    navigationPosition =R.id.navigation_cart
+                    navigateToFragment(CartFragment.newInstance())
+                }
+                R.id.navigation_my_orders-> {
+                    toolbar.title = "My Orders"
+                    navigationPosition =R.id.navigation_my_orders
+                    navigateToFragment(MyOrderFragment.newInstance())
+                }
+                R.id.navigation_favourites -> {
+                    toolbar.title = "My Favourites"
+                    navigationPosition =R.id.navigation_favourites
+                    navigateToFragment(FavouritesFragment.newInstance())
+                }
+            }
+            false
+        }*/
 
         //Change navigation header information
         changeNavigationHeaderInfo()
