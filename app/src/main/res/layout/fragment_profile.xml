@@ -83,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:hint="@string/phn_no"
-                android:text="Phn no."
+                android:text="Phn no :"
                 android:textColor="#000000"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -93,7 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:hint="User Name"
+                android:hint="Address :"
                 android:text="@string/name"
                 android:textColor="#000000"
                 android:textSize="20sp"
@@ -104,7 +104,7 @@
                 android:id="@+id/Email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="40dp"
                 android:hint="@string/email"
                 android:text="Email :"
                 android:textColor="#000000"
@@ -134,8 +134,7 @@
                 android:layout_marginTop="8dp"
                 android:hint="Name"
                 android:textColor="#000000"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textSize="20sp" />
 
 
             <TextView
@@ -151,13 +150,12 @@
             <TextView
                 android:id="@+id/UserAddress"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="61dp"
                 android:layout_marginStart="6dp"
                 android:layout_marginTop="8dp"
                 android:hint="Delivery Address"
                 android:textColor="#000000"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/UserEmail"
