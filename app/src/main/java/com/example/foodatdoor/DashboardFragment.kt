@@ -5,22 +5,23 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.os.AsyncTask
 import android.os.Bundle
 import android.provider.Settings
 import android.view.*
+import android.widget.*
 import androidx.fragment.app.Fragment
-import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.RelativeLayout
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import kotlinx.android.synthetic.main.recycler_dashboard_single_row.*
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
@@ -39,11 +40,15 @@ class DashboardFragment : Fragment() {
 
     lateinit var progressBar: ProgressBar
 
+
+
+
     companion object {
         fun newInstance(): Fragment {
             return DashboardFragment()
         }
     }
+  //  var restId: String? = "100"
 
     val restInfoList = arrayListOf<Restaurant>()
 
@@ -76,6 +81,8 @@ class DashboardFragment : Fragment() {
         progressLayout.visibility = View.VISIBLE
 
         layoutManager = LinearLayoutManager(activity)
+
+        val fav=view.findViewById<ImageView>(R.id.btnAddToFav)
 
 
         val queue = Volley.newRequestQueue(activity as Context)
@@ -110,8 +117,78 @@ class DashboardFragment : Fragment() {
                             recyclerDashboard.adapter = recyclerAdapter
 
                             recyclerDashboard.layoutManager = layoutManager
-
                         }
+
+                            /*//pass data to entity
+                                val restEntity = RestEntity(
+                                    restObject.restId.toInt(),
+                                    restObject.restName,
+                                    restObject.restRating,
+                                    restObject.restPrice,
+                                    restObject.restImage )
+
+                                val checkFav = DBAsyncTask(context as Activity, restEntity, 1).execute()
+
+                            val isFav = checkFav.get()
+
+
+                            if (isFav) {
+                                fav?.setImageResource(R.drawable.ic_favourites)
+                            } else {
+                                fav?.setImageResource(R.drawable.ic_fav)
+                            }
+
+                            fav?.setOnClickListener {
+
+                                if (!DBAsyncTask(
+                                        context as Activity,
+                                        restEntity,
+                                        1
+                                    ).execute().get()
+                                ) {
+
+                                    val async =
+                                        DBAsyncTask(context as Activity, restEntity, 2).execute()
+                                    val result = async.get()
+                                    if (result) {
+                                        Toast.makeText(context as Activity,
+                                            "Restaurant added to favourites",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+
+                                        fav?.setImageResource(R.drawable.ic_favourites);
+                                    } else {
+                                        Toast.makeText(
+                                            context as Activity,
+                                            "Some error occurred!",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                } else {
+
+                                    val async = DBAsyncTask(context as Activity, restEntity, 3).execute()
+                                    val result = async.get()
+
+                                    if (result){
+                                        Toast.makeText(
+                                            context as Activity,
+                                            "Restaurant removed from favourites",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        fav.setImageResource(R.drawable.ic_fav);
+                                    } else {
+                                        Toast.makeText(
+                                            context as Activity,
+                                            "Some error occurred!",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+
+                                }
+                            }
+
+
+                        */
 
                     } else {
                         Toast.makeText(activity as Context, "Some Error Occurred!", Toast.LENGTH_SHORT).show()
@@ -175,5 +252,49 @@ class DashboardFragment : Fragment() {
         recyclerAdapter.notifyDataSetChanged()
 
         return super.onOptionsItemSelected(item)
+    }
+
+
+    class DBAsyncTask(val context: Context, val restEntity: RestEntity, val mode: Int) :
+        AsyncTask<Void, Void, Boolean>() {
+
+        /*
+        Mode 1 -> Check DB if the restaurant is favourite or not
+        Mode 2 -> Save the restaurant into DB as favourite
+        Mode 3 -> Remove the favourite restaurant
+        * */
+
+        val db = Room.databaseBuilder(context, RestaurantDatabase::class.java, "rest-db").build()
+
+        override fun doInBackground(vararg p0: Void?): Boolean {
+
+            when (mode) {
+
+                1 -> {
+
+                    // Check DB if the rest is favourite or not
+                    val book: RestEntity? = db.restDao().getRestById(restEntity.rest_id.toString())
+                    db.close()
+                    return book != null
+
+                }
+
+                2 -> {
+                    // Save the rest into DB as favourite
+                    db.restDao().insertRest(restEntity)
+                    db.close()
+                    return true
+                }
+
+                3 -> {
+                    // Remove the favourite restaurant
+                    db.restDao().deleteRest(restEntity)
+                    db.close()
+                    return true
+                }
+            }
+            return false
+        }
+
     }
 }

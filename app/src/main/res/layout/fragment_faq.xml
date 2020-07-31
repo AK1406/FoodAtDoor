@@ -1,14 +1,234 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".FaqFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
     <TextView
+        android:id="@+id/que1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:text="Write your questions here"
+        android:textStyle="bold"
+        android:textColor="#6C1E05"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="8dp"
+        android:textSize="20sp"/>
 
-</FrameLayout>
+
+    <TextView
+        android:id="@+id/ans1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Write your answer here"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="8dp"
+        android:textSize="20sp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="20dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_centerVertical="true"
+          android:layout_margin="8dp"
+            android:background="#C61E1E" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/que2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Write your questions here"
+        android:textStyle="bold"
+        android:textColor="#6C1E05"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="8dp"
+        android:textSize="20sp"/>
+
+
+    <TextView
+        android:id="@+id/ans2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Write your answer here"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="8dp"
+        android:textSize="20sp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="20dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_centerVertical="true"
+            android:layout_margin="8dp"
+            android:background="#C61E1E" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/que3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Write your questions here"
+        android:textStyle="bold"
+        android:textColor="#6C1E05"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="8dp"
+        android:textSize="20sp"/>
+
+
+    <TextView
+        android:id="@+id/ans3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Write your answer here"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="8dp"
+        android:textSize="20sp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="20dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_centerVertical="true"
+            android:layout_margin="8dp"
+            android:background="#C61E1E" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/que4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Write your questions here"
+        android:textStyle="bold"
+        android:textColor="#6C1E05"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="8dp"
+        android:textSize="20sp"/>
+
+
+    <TextView
+        android:id="@+id/ans4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Write your answer here"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="8dp"
+        android:textSize="20sp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="20dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_centerVertical="true"
+            android:layout_margin="8dp"
+            android:background="#C61E1E" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/que5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Write your questions here"
+        android:textStyle="bold"
+        android:textColor="#6C1E05"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="8dp"
+        android:textSize="20sp"/>
+
+
+    <TextView
+        android:id="@+id/ans5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Write your answer here"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="8dp"
+        android:textSize="20sp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="20dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_centerVertical="true"
+            android:layout_margin="8dp"
+            android:background="#C61E1E" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/que6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Write your questions here"
+        android:textStyle="bold"
+        android:textColor="#6C1E05"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="8dp"
+        android:textSize="20sp"/>
+
+
+    <TextView
+        android:id="@+id/ans6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Write your answer here"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="8dp"
+        android:textSize="20sp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="20dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_centerVertical="true"
+            android:layout_margin="8dp"
+            android:background="#C61E1E" />
+
+    </RelativeLayout>
+</LinearLayout>
+</ScrollView>

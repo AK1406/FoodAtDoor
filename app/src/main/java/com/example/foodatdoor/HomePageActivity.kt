@@ -38,7 +38,7 @@ class HomePageActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)   //set toolbar
         setUpDrawerLayout()  //calling function to set drawer layout
         //bottom menu bar
-        val bottomNavigation: BottomNavigationView = findViewById(R.id.navigationView)
+      //  val bottomNavigation: BottomNavigationView = findViewById(R.id.navigationView)
 
         //Load Home fragment first
         navigationPosition = R.id.dashboard
@@ -79,6 +79,20 @@ class HomePageActivity : AppCompatActivity() {
                     navigationPosition =R.id.rate
                     //navigateToFragment(AboutAppFragment.newInstance())
                 }
+                R.id.navigation_cart -> {
+                    toolbar.title = "Cart"
+                    navigationPosition =R.id.navigation_cart
+                    navigateToFragment(CartFragment.newInstance())
+                }
+                R.id.navigation_my_orders -> {
+                    toolbar.title = "My Orders"
+                    navigationPosition =R.id.navigation_my_orders
+                    navigateToFragment(MyOrderFragment.newInstance())
+                }R.id.navigation_favourites-> {
+                toolbar.title = "Favourites"
+                navigationPosition =R.id.navigation_favourites
+                navigateToFragment(FavouritesFragment.newInstance())
+            }
                 R.id.updatePassword -> {
                     toolbar.title = getString(R.string.update_password)
                     navigationPosition = R.id.updatePassword
