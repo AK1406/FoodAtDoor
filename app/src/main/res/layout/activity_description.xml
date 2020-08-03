@@ -1,47 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/descriptionLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     tools:context=".DescriptionActivity">
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerMenu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"/>
-
-    <RelativeLayout
-        android:id="@+id/progressLayout"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
 
         <RelativeLayout
-            android:id="@+id/rlProceedToCart"
+            android:id="@+id/progressLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:elevation="1dp"
+            android:visibility="invisible">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerInParent="true" />
+
+        </RelativeLayout>
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:id="@+id/scrollview"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <TextView
+                    android:id="@+id/textViewChoose"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="choose form menu listed below"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp"
+                    android:layout_marginBottom="40dp"
+                    android:layout_below="@+id/textViewChoose" />
+
+            </RelativeLayout>
+
+        </ScrollView>
+
+        <RelativeLayout
+            android:id="@+id/ProceedToCart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/recyclerMenu"
-            android:visibility="invisible"
-            tools:ignore="NotSibling">
-        <Button
-            android:id="@+id/btn_cart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Proceed to cart"
-            android:textSize="20sp"
-            android:layout_alignParentBottom="true"
-            android:textColor="#fff"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:background="#FF5722"/>
+            android:visibility="invisible">
+
+            <Button
+                android:id="@+id/btn_cart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorPrimary"
+                android:text="Add to cart"
+                android:textColor="#fff" />
+
         </RelativeLayout>
 
-    </RelativeLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 </RelativeLayout>

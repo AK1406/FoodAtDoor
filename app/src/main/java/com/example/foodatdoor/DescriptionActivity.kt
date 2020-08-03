@@ -29,38 +29,26 @@ import org.json.JSONObject
 class DescriptionActivity : AppCompatActivity() {
 
     lateinit var recyclerMenu: RecyclerView
-
     lateinit var layoutManager: RecyclerView.LayoutManager
-
     lateinit var recyclerAdapter: DescriptionRecyclerAdapter
-
     lateinit var progressLayout: RelativeLayout
-
     lateinit var progressBar: ProgressBar
-
     lateinit var addToCartBtn:Button
-
     lateinit var restId: String
     lateinit var restName:String
     val menuInfoList = arrayListOf<Dish>()
-   // lateinit var  proceedToCartLayout : RelativeLayout
+   lateinit var proceedToCartLayout:RelativeLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_description)
 
         recyclerMenu = findViewById(R.id.recyclerMenu)
-
         progressLayout = findViewById(R.id.progressLayout)
-
         progressBar = findViewById(R.id.progressBar)
-
         progressLayout.visibility = View.VISIBLE
-
         addToCartBtn = findViewById(R.id.btn_cart)
-
-//         proceedToCartLayout=findViewById(R.id.relativeLayoutProceedToCart)
-
+        proceedToCartLayout=findViewById(R.id.ProceedToCart)
         layoutManager = LinearLayoutManager(this)
 
         if (intent != null) {
@@ -77,10 +65,7 @@ class DescriptionActivity : AppCompatActivity() {
 
     }
 
-        // val jsonParams = JSONObject()
-        // jsonParams.put("restaurant_id", restId.toString())
-
-        fun fetchData(){
+        private fun fetchData(){
         if (ConnectionManager().checkConnectivity(this@DescriptionActivity)) {
 
 
@@ -113,6 +98,7 @@ class DescriptionActivity : AppCompatActivity() {
                                 recyclerAdapter = DescriptionRecyclerAdapter(       this,
                                     restId,//pass the restaurant Id
                                     restName,//pass restaurantName //
+                                    proceedToCartLayout,//pass the  which has the button to enable it later
                                     addToCartBtn,
                                     menuInfoList)
 
@@ -228,7 +214,7 @@ class DescriptionActivity : AppCompatActivity() {
             val alterDialog=androidx.appcompat.app.AlertDialog.Builder(this)
             alterDialog.setTitle("No Internet")
             alterDialog.setMessage("Internet Connection can't be establish!")
-            alterDialog.setPositiveButton("Open Settings"){text,listener->
+            alterDialog.setPositiveButton("Open Settings"){ _, _ ->
                 val settingsIntent= Intent(Settings.ACTION_SETTINGS)//open wifi settings
                 startActivity(settingsIntent)
             }

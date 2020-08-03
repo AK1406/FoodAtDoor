@@ -2,26 +2,32 @@ package com.example.foodatdoor
 
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 
 class DescriptionRecyclerAdapter(val context:Context, private val restaurantId:String, private val restaurantName:String,
-                                  private val buttonProceedToCart:Button, private val restaurantMenu:ArrayList<Dish>):
+                                 val proceedToCartPassed:RelativeLayout, private val buttonProceedToCart:Button, private val restaurantMenu:ArrayList<Dish>):
     RecyclerView.Adapter<DescriptionRecyclerAdapter.ViewHolderRestaurantMenu>() {
 
 
     var itemSelectedCount:Int=0
-  //  lateinit var proceedToCart:RelativeLayout
+  private lateinit var proceedToCart:RelativeLayout
 
 
-    var itemsSelectedId= arrayListOf<String>()
+
+    private var itemsSelectedId= arrayListOf<String>()
 
 
     class ViewHolderRestaurantMenu(view:View):RecyclerView.ViewHolder(view){
@@ -47,21 +53,24 @@ class DescriptionRecyclerAdapter(val context:Context, private val restaurantId:S
     override fun onBindViewHolder(holder: ViewHolderRestaurantMenu, position: Int) {
         val restaurantMenuItem=restaurantMenu[position]
 
-       // proceedToCart=proceedToCartPassed//button view passed from the RestaurantMenuActivity
+        proceedToCart=proceedToCartPassed//button view passed from the RestaurantMenuActivity
 
         //click listener to the button view Passed from activity which has the button proceed to cart
 
        buttonProceedToCart.setOnClickListener(View.OnClickListener {
 
-            val intent= Intent(context, CartFragment::class.java)
-
-            intent.putExtra("restaurantId",restaurantId.toString())// pass the restaurant id to the next acticity
-
-            intent.putExtra("restaurantName",restaurantName)
-
-            intent.putExtra("selectedItemsId",itemsSelectedId)//pass all the items selected by the user
-
-            context.startActivity(intent)
+           val activity = context as AppCompatActivity
+           val myFragment: Fragment = CartFragment.newInstance()
+           val  dataFromActivityToFragment = myFragment as DataFromAdapterToFragment
+           activity.supportFragmentManager.beginTransaction().
+           replace(R.id.descriptionLayout, myFragment)
+               .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+               .addToBackStack(null)
+               .commit()
+           //pass crop name to TipsFragment fragment
+           val handler = Handler()
+           val r = Runnable { dataFromActivityToFragment.sendData(restaurantId,restaurantName,itemsSelectedId) }
+           handler.postDelayed(r, 5000)
 
         })
 
@@ -93,10 +102,10 @@ class DescriptionRecyclerAdapter(val context:Context, private val restaurantId:S
             }
 
             if(itemSelectedCount>0){
-                buttonProceedToCart.visibility=View.VISIBLE
+                proceedToCart.visibility=View.VISIBLE
             }
             else{
-                buttonProceedToCart.visibility=View.INVISIBLE
+                proceedToCart.visibility=View.INVISIBLE
             }
 
         })
@@ -112,4 +121,8 @@ class DescriptionRecyclerAdapter(val context:Context, private val restaurantId:S
         return itemSelectedCount
     }
 
+    //interface to pass value of cropName
+    interface DataFromAdapterToFragment {
+        fun sendData(restId:String?,restName:String?,selItemId:ArrayList<String>)
+    }
 }

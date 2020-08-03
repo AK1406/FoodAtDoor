@@ -30,4 +30,7 @@
     <string name="faq">FAQ</string>
     <string name="not_verify">Not Verified</string>
     <string name="action_sort">sorting</string>
+    <string name="shared_preferences">RestaurantPreference</string>
+    <string name="place_order">Place Order</string>
+    <string name="ordering_form">ordering Form</string>
 </resources>

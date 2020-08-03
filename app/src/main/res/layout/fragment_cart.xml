@@ -57,19 +57,19 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.4"
                     android:padding="10dp"
-                    android:paddingRight="3dp"
-                    android:text="ordering Form"
+                    android:paddingEnd="3dp"
+                    android:text="@string/ordering_form"
                     android:textAlignment="center"
 
                     android:textColor="#000"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    tools:ignore="NestedWeights,RtlSymmetry" />
                 <TextView
                     android:id="@+id/textViewOrderingFrom"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:textStyle="bold"
                     android:padding="10dp"
-                    android:paddingLeft="3dp"
                     android:layout_weight="0.6"
                     android:textColor="#000"
                     android:textSize="18sp"
@@ -85,9 +85,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="0.01"
                 android:id="@+id/textViewHorizontalLine"
-                android:background="@color/colorPrimary"
-                android:layout_below="@id/textViewOrderingFrom"
-                />
+                android:background="@color/colorPrimary" />
 
 
 
@@ -95,7 +93,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.70"
-                android:layout_below="@+id/textViewHorizontalLine"
                 android:id="@+id/recyclerViewCart"/>
 
 
@@ -103,16 +100,14 @@
                 android:id="@+id/relativeLayoutProceedToCart"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.20"
-
-                >
+                android:layout_weight="0.20">
 
                 <Button
                     android:id="@+id/buttonPlaceOrder"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/colorPrimary"
-                    android:text="Place Order"
+                    android:text="@string/place_order"
                     android:layout_alignParentBottom="true"
                     android:textAlignment="center"
                     android:textColor="#fff" />

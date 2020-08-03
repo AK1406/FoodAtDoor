@@ -130,6 +130,7 @@ class DashboardRecyclerAdapter(val context: Context, val restList: ArrayList<Res
         val addFav :ImageView=view.findViewById(R.id.btnAddToFav)
     }
 
+
 }
 
 

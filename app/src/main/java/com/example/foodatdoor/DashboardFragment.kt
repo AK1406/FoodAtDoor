@@ -82,10 +82,7 @@ class DashboardFragment : Fragment() {
         layoutManager = LinearLayoutManager(activity)
 
         val fav=view.findViewById<ImageView>(R.id.btnAddToFav)
-
-
         val queue = Volley.newRequestQueue(activity as Context)
-
         val url ="http://13.235.250.119/v2/restaurants/fetch_result/"
 
         if (ConnectionManager().checkConnectivity(activity as Context)){
