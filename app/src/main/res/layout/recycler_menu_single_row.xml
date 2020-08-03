@@ -1,51 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="140dp"
+    android:layout_height="90dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#ffffff"
     android:layout_margin="6dp"
     app:cardCornerRadius="4dp">
 
     <LinearLayout
-        android:id="@+id/llContent"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:background="#ffffff"
+        android:layout_height="100dp"
         android:orientation="horizontal"
         android:weightSum="6">
 
-        <!--The weight sum property is used to divide the layout into
-        different parts and then giving each layout a particular weight
-        gives it that amount of space on the screen-->
-
-
-        <!--Since each parent layout will have a specific weight, we need
-        not give any width to those layout-->
-
-        <ImageView
-            android:id="@+id/imgDishImage"
-            android:layout_width="0dp"
-            android:layout_height="120dp"
-            android:layout_weight="2.0"
-            android:padding="5dp"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/ic_launcher" />
-
         <RelativeLayout
             android:layout_width="0dp"
-            android:layout_marginLeft="8dp"
             android:layout_height="match_parent"
-            android:layout_weight="3.3">
+            android:layout_weight="1"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:paddingTop="4dp"
+                android:text="1"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:id="@+id/textViewSerialNumber"
+                />
+
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_margin="8dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4.5">
 
             <TextView
                 android:id="@+id/txtDishName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
+                android:textStyle="bold"
                 android:text="Name of the Dish"
                 android:textColor="#000000"
                 android:textSize="18sp" />
+
 
 
             <TextView
@@ -53,38 +55,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/txtDishName"
-                android:layout_alignParentBottom="true"
-                android:drawableLeft="@drawable/ic_price"
-                android:text="Rs. 299"
+                android:text=" Rs. 299"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="6dp"
                 android:textColor="#357a38"
                 android:textSize="15sp"
                 android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/txtDishRating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/txtDishPrice"
-                android:layout_marginTop="-36dp"
-                android:drawableLeft="@drawable/ic_star"
-                android:drawablePadding="4dp"
-                android:padding="4dp"
-                android:text="4.5"
-                android:textColor="#ffca28"
-                android:textSize="15sp"
-                android:textStyle="bold">
-
-            </TextView>
         </RelativeLayout>
 
         <Button
             android:id="@+id/add_dish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="16dp"
+          android:layout_gravity="center"
             android:background="#FF5722"
             android:text="Add"
+            android:layout_weight="0.5"
+            android:layout_marginEnd="8dp"
             android:textColor="#fff" />
 
     </LinearLayout>

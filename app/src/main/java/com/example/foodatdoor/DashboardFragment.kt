@@ -48,7 +48,6 @@ class DashboardFragment : Fragment() {
             return DashboardFragment()
         }
     }
-  //  var restId: String? = "100"
 
     val restInfoList = arrayListOf<Restaurant>()
 
@@ -93,118 +92,48 @@ class DashboardFragment : Fragment() {
             val jsonObjectRequest = object : JsonObjectRequest(Request.Method.GET, url, null,
                 Response.Listener {
 
-                // Here we will handle the response
-                try {
-                    progressLayout.visibility = View.GONE
-                    val data1 = it.getJSONObject("data")
-                    val success = data1.getBoolean("success")
+                    // Here we will handle the response
+                    try {
+                        progressLayout.visibility = View.GONE
+                        val data1 = it.getJSONObject("data")
+                        val success = data1.getBoolean("success")
 
-                    if (success){
+                        if (success){
 
-                        val data = data1.getJSONArray("data")
-                        for (i in 0 until data.length()){
-                            val restJsonObject = data.getJSONObject(i)
-                            val restObject = Restaurant(
-                                restJsonObject.getString("id"),
-                                restJsonObject.getString("name"),
-                                restJsonObject.getString("rating"),
-                                restJsonObject.getString("cost_for_one"),
-                                restJsonObject.getString("image_url")
-                            )
-                            restInfoList.add(restObject)
-                            recyclerAdapter = DashboardRecyclerAdapter(activity as Context, restInfoList)
+                            val data = data1.getJSONArray("data")
+                            for (i in 0 until data.length()){
+                                val restJsonObject = data.getJSONObject(i)
+                                val restObject = Restaurant(
+                                    restJsonObject.getString("id"),
+                                    restJsonObject.getString("name"),
+                                    restJsonObject.getString("rating"),
+                                    restJsonObject.getString("cost_for_one"),
+                                    restJsonObject.getString("image_url")
+                                )
+                                restInfoList.add(restObject)
+                                recyclerAdapter = DashboardRecyclerAdapter(activity as Context, restInfoList)
 
-                            recyclerDashboard.adapter = recyclerAdapter
+                                recyclerDashboard.adapter = recyclerAdapter
 
-                            recyclerDashboard.layoutManager = layoutManager
+                                recyclerDashboard.layoutManager = layoutManager
+                            }
+
+
+                        } else {
+                            Toast.makeText(activity as Context, "Some Error Occurred!", Toast.LENGTH_SHORT).show()
                         }
-
-                            /*//pass data to entity
-                                val restEntity = RestEntity(
-                                    restObject.restId.toInt(),
-                                    restObject.restName,
-                                    restObject.restRating,
-                                    restObject.restPrice,
-                                    restObject.restImage )
-
-                                val checkFav = DBAsyncTask(context as Activity, restEntity, 1).execute()
-
-                            val isFav = checkFav.get()
-
-
-                            if (isFav) {
-                                fav?.setImageResource(R.drawable.ic_favourites)
-                            } else {
-                                fav?.setImageResource(R.drawable.ic_fav)
-                            }
-
-                            fav?.setOnClickListener {
-
-                                if (!DBAsyncTask(
-                                        context as Activity,
-                                        restEntity,
-                                        1
-                                    ).execute().get()
-                                ) {
-
-                                    val async =
-                                        DBAsyncTask(context as Activity, restEntity, 2).execute()
-                                    val result = async.get()
-                                    if (result) {
-                                        Toast.makeText(context as Activity,
-                                            "Restaurant added to favourites",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-
-                                        fav?.setImageResource(R.drawable.ic_favourites);
-                                    } else {
-                                        Toast.makeText(
-                                            context as Activity,
-                                            "Some error occurred!",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }
-                                } else {
-
-                                    val async = DBAsyncTask(context as Activity, restEntity, 3).execute()
-                                    val result = async.get()
-
-                                    if (result){
-                                        Toast.makeText(
-                                            context as Activity,
-                                            "Restaurant removed from favourites",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                        fav.setImageResource(R.drawable.ic_fav);
-                                    } else {
-                                        Toast.makeText(
-                                            context as Activity,
-                                            "Some error occurred!",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }
-
-                                }
-                            }
-
-
-                        */
-
-                    } else {
-                        Toast.makeText(activity as Context, "Some Error Occurred!", Toast.LENGTH_SHORT).show()
+                    } catch (e: JSONException) {
+                        Toast.makeText(activity as Context, "Some unexpected error occurred! $e", Toast.LENGTH_SHORT).show()
                     }
-                } catch (e: JSONException) {
-                    Toast.makeText(activity as Context, "Some unexpected error occurred! $e", Toast.LENGTH_SHORT).show()
-                }
 
-            }, Response.ErrorListener {
+                }, Response.ErrorListener {
 
-                //Here we will handle the errors
-                if (activity != null){
-                    Toast.makeText(activity as Context, "Volley error occurred!", Toast.LENGTH_SHORT).show()
-                }
+                    //Here we will handle the errors
+                    if (activity != null){
+                        Toast.makeText(activity as Context, "Volley error occurred!", Toast.LENGTH_SHORT).show()
+                    }
 
-            }){
+                }){
                 override fun getHeaders(): MutableMap<String, String> {
                     val headers = HashMap<String, String>()
                     headers["Content-Type"] = "application/json"
@@ -273,9 +202,9 @@ class DashboardFragment : Fragment() {
                 1 -> {
 
                     // Check DB if the rest is favourite or not
-                    val book: RestEntity? = db.restDao().getRestById(restEntity.rest_id.toString())
+                    val rest: RestEntity? = db.restDao().getRestById(restEntity.rest_id.toString())
                     db.close()
-                    return book != null
+                    return rest != null
 
                 }
 
