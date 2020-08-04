@@ -18,7 +18,8 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 
 class DescriptionRecyclerAdapter(val context:Context, private val restaurantId:String, private val restaurantName:String,
-                                 val proceedToCartPassed:RelativeLayout, private val buttonProceedToCart:Button, private val restaurantMenu:ArrayList<Dish>):
+                                 val proceedToCartPassed:RelativeLayout, private val buttonProceedToCart:Button,
+                                 private val restaurantMenu:ArrayList<Dish>):
     RecyclerView.Adapter<DescriptionRecyclerAdapter.ViewHolderRestaurantMenu>() {
 
 
@@ -59,19 +60,11 @@ class DescriptionRecyclerAdapter(val context:Context, private val restaurantId:S
 
        buttonProceedToCart.setOnClickListener(View.OnClickListener {
 
-           val activity = context as AppCompatActivity
-           val myFragment: Fragment = CartFragment.newInstance()
-           val  dataFromActivityToFragment = myFragment as DataFromAdapterToFragment
-           activity.supportFragmentManager.beginTransaction().
-           replace(R.id.descriptionLayout, myFragment)
-               .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-               .addToBackStack(null)
-               .commit()
-           //pass crop name to TipsFragment fragment
-           val handler = Handler()
-           val r = Runnable { dataFromActivityToFragment.sendData(restaurantId,restaurantName,itemsSelectedId) }
-           handler.postDelayed(r, 5000)
-
+           val intent= Intent(context, CartActivity::class.java)
+           intent.putExtra("restaurantId",restaurantId.toString())// pass the restaurant id to the next acticity
+           intent.putExtra("restaurantName",restaurantName)
+           intent.putExtra("selectedItemsId",itemsSelectedId)//pass all the items selected by the user
+           context.startActivity(intent)
         })
 
 
@@ -121,8 +114,4 @@ class DescriptionRecyclerAdapter(val context:Context, private val restaurantId:S
         return itemSelectedCount
     }
 
-    //interface to pass value of cropName
-    interface DataFromAdapterToFragment {
-        fun sendData(restId:String?,restName:String?,selItemId:ArrayList<String>)
-    }
 }

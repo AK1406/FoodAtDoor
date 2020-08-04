@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -6,15 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
-    tools:context=".CartFragment"
-    android:id="@+id/drawerLayout"
-    >
+    tools:context=".CartActivity"
+    android:id="@+id/drawerLayout">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/coordinatorLayout"
-        >
+        android:id="@+id/coordinatorLayout">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -57,19 +55,18 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.4"
                     android:padding="10dp"
-                    android:paddingEnd="3dp"
-                    android:text="@string/ordering_form"
+                    android:paddingRight="3dp"
+                    android:text="@string/ordering_from"
                     android:textAlignment="center"
-
                     android:textColor="#000"
-                    android:textSize="18sp"
-                    tools:ignore="NestedWeights,RtlSymmetry" />
+                    android:textSize="18sp" />
                 <TextView
                     android:id="@+id/textViewOrderingFrom"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:textStyle="bold"
                     android:padding="10dp"
+                    android:paddingLeft="3dp"
                     android:layout_weight="0.6"
                     android:textColor="#000"
                     android:textSize="18sp"
@@ -85,7 +82,9 @@
                 android:layout_height="0dp"
                 android:layout_weight="0.01"
                 android:id="@+id/textViewHorizontalLine"
-                android:background="@color/colorPrimary" />
+                android:background="@color/colorPrimary"
+                android:layout_below="@id/textViewOrderingFrom"
+                />
 
 
 
@@ -93,6 +92,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.70"
+                android:layout_below="@+id/textViewHorizontalLine"
                 android:id="@+id/recyclerViewCart"/>
 
 
@@ -100,7 +100,9 @@
                 android:id="@+id/relativeLayoutProceedToCart"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.20">
+                android:layout_weight="0.20"
+
+                >
 
                 <Button
                     android:id="@+id/buttonPlaceOrder"
@@ -121,5 +123,3 @@
 
 
 </LinearLayout>
-
-

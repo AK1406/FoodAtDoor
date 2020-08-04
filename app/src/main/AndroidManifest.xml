@@ -13,8 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DescriptionActivity"
-            android:label="Menu"/>
+        <activity android:name=".CartActivity"
+            android:label="My Cart"/>
+        <activity
+            android:name=".DescriptionActivity"
+            android:label="Menu" />
         <activity android:name=".VerifyPhone" />
         <activity android:name=".UpdatePasswordActivity" />
         <activity android:name=".ForgotPasswordActivity" />

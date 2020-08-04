@@ -79,11 +79,12 @@ class HomePageActivity : AppCompatActivity() {
                     navigationPosition =R.id.rate
                     //navigateToFragment(AboutAppFragment.newInstance())
                 }
-                R.id.navigation_cart -> {
-                    toolbar.title = "Cart"
-                    navigationPosition =R.id.navigation_cart
-                    navigateToFragment(CartFragment.newInstance())
-                }
+                /*R.id.navigation_cart -> {
+                    toolbar.title = getString(R.string.cart)
+                    navigationPosition = R.id.navigation_cart
+                    val intent = Intent(this,CartActivity::class.java) //navigate to Activity
+                    startActivity(intent)
+                }*/
                 R.id.navigation_my_orders -> {
                     toolbar.title = "My Orders"
                     navigationPosition =R.id.navigation_my_orders
