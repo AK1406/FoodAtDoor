@@ -65,7 +65,7 @@ class HomePageActivity : AppCompatActivity() {
                     navigateToFragment(FaqFragment.newInstance())
                 }
                 R.id.aboutApp -> {
-                    toolbar.title = "About"
+                    toolbar.title = "App Info"
                     navigationPosition =R.id.aboutApp
                     navigateToFragment(AboutAppFragment.newInstance())
                 }
