@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.recyclerview.widget.LinearLayoutManager
 
 class OrderHistoryAdapter(private val ctx: Context, private val layout1:Int,private val orderList:
 List<OrderHistoryModel>)

@@ -12,17 +12,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.RelativeLayout
-import android.widget.Toast
 import androidx.core.app.ActivityCompat.finishAffinity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import org.json.JSONException
 
 lateinit var order_activity_history_Progressdialog: RelativeLayout
 lateinit var order_history_fragment_no_orders: RelativeLayout
@@ -31,6 +23,7 @@ lateinit var order_history_fragment_no_orders: RelativeLayout
 private  var orderList:MutableList<OrderHistoryModel> = mutableListOf()
 private lateinit var myRef: DatabaseReference
 private lateinit var listView: ListView
+private lateinit var listViewItem:ListView
 private var userId: String? = null
 private var itemList:MutableList<CartItems> = mutableListOf()
 
@@ -60,7 +53,7 @@ class OrderHistoryFragment: Fragment() {
                         orderList.add(plan!!)
                     }
                     val adapter=OrderHistoryAdapter(context as Activity
-                        ,R.layout.order_history_recycler_view_single_row,
+                        ,R.layout.order_history_list_view_single_row,
                         orderList)
                     listView.adapter=adapter
                 }
@@ -81,9 +74,9 @@ class OrderHistoryFragment: Fragment() {
                         itemList.add(plan!!)
                     }
                     val adapter=OrderedItemListAdapter(context as Activity
-                        ,R.layout.order_history_recycler_view_single_row,
+                        ,R.layout.order_item_single_row,
                         itemList)
-                    listView.adapter=adapter
+                    listViewItem.adapter=adapter
                 }
             }
 
@@ -101,28 +94,15 @@ class OrderHistoryFragment: Fragment() {
         order_history_fragment_no_orders=view.findViewById(R.id.order_history_fragment_no_orders)
 
         listView=view.findViewById(R.id.listViewAllOrders)
+        listViewItem=view.findViewById(R.id.ViewItemsOrdered)
 
 
     }
 
 
-/*
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        val id=item.itemId
-
-        when(id){
-            android.R.id.home->{
-               // super.onBackPressed()
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }*/
-
     override fun onResume() {
 
         if (ConnectionManager().checkConnectivity(activity as Context)) {
-           // setItemsForEachRestaurant()//if internet is available fetch data
         }else
         {
 

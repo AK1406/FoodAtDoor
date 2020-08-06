@@ -278,7 +278,7 @@ class CartActivity : AppCompatActivity() {
         }
         if (orderId != null) {
             //set the taken information
-            myRef.child(userId!!).setValue(orderInfo).addOnCompleteListener {
+            myRef.child(userId!!).child(orderId).setValue(orderInfo).addOnCompleteListener {
                 Toast.makeText(this, "Your Order is placed successfully ", Toast.LENGTH_SHORT)
                     .show()
             }

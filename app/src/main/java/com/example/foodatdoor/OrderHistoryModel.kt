@@ -6,4 +6,6 @@ data class OrderHistoryModel (
     var totalCost:String,
     var orderPlacedAt:String,
     var orderList:ArrayList<CartItems>
-)
+){
+    constructor():this("","","","", arrayListOf())
+}

@@ -16,7 +16,7 @@
         <ImageView
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:background="@drawable/ic_order_placed_now"
+            android:background="@drawable/ic_tick"
             android:layout_centerInParent="true"
             android:id="@+id/imageViewOrderPlaced"
             />

@@ -1,5 +1,6 @@
 package com.example.foodatdoor
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -21,13 +22,8 @@ class OrderPlacedActivity : AppCompatActivity() {
 
         buttonOkay.setOnClickListener(View.OnClickListener {
 
-            val myFragment: Fragment =DashboardFragment.newInstance()
-            val fragmentTransaction = supportFragmentManager.beginTransaction()
-            fragmentTransaction.replace(R.id.orderPlacedLayout, myFragment)
-            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            fragmentTransaction.addToBackStack(null)
-            fragmentTransaction.commit()
-
+            val intent = Intent(this,HomePageActivity::class.java)
+            startActivity(intent)
             finishAffinity()//finish all the activities
         })
     }

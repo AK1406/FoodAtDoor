@@ -5,4 +5,6 @@ data class CartItems (
     var itemName:String,
     var itemPrice:String,
     var restaurantId:String
-)
+){
+    constructor():this("","","","")
+}
