@@ -35,14 +35,18 @@
     <string name="ordering_form">ordering Form</string>
 
 
-    <string name="question1">Q1. Why is FoodAtDoor ?</string>
-    <string name="answer1">A1. At FoodAtDoor we strive to add value to your business. We understand the challenges you face on a daily basis in sourcing the best quality packaging material. FoodAtDoor Packaging Assist is to take care of all your packaging needs.</string>
+    <string name="question1">Q1. What is FoodAtDoor ?</string>
+    <string name="answer1">A1. FoodAtDoor is a food delivery service that does Home Deliveries to its customers 24X7.</string>
     <string name="question2">Q2. How are you guys are different?</string>
     <string name="answer2">A2. Best products - We only list the products which have passed our tests and are the best suitable for delivery. They will help in giving a better consumer experience, so you can get get repeated orders. Best prices - We have negotiated rates with our distributors exclusive for FoodAtDoor Restaurant. Convenience - No need to haggle for prices. No need to follow-up on delivery. We track all orders to ensure you have a hassle free experience.</string>
-    <string name="question3">Q3. Why is Food Runner doing this?</string>
-    <string name="answer3">A3. At Food Runner we strive to add value to your business. We understand the challenges you face on a daily basis in sourcing the best quality packaging material. Food Runner Packaging Assist is to take care of all your packaging needs.</string>
-    <string name="question4">Q4. How are you guys are different?</string>
-    <string name="answer4">A4. Best products - We only list the products which have passed our tests and are the best suitable for delivery. They will help in giving a better consumer experience, so you can get get repeated orders. Best prices - We have negotiated rates with our distributors exclusive for FoodAtDoor Restaurant. Convenience - No need to haggle for prices. No need to follow-up on delivery. We track all orders to ensure you have a hassle free experience.</string>
+    <string name="question3">Q3. How do you place an order on FoodAtDoor?</string>
+    <string name="answer3">A3. You can place an order with Food Mood" by logging into the app, Selecting a restaurant of your choice and adding items from the selected restaurant menu to your cart and then place your order.</string>
+    <string name="question4">Q4. Can I order multiple items from same restaurant?</string>
+    <string name="answer4">A4. Yes, you can order multiple items from the same restaurant but you can order 1 type of item only once.</string>
+    <string name="question5">Q5. Can I order from multiple restaurants?</string>
+    <string name="answer5">A5. No, At a time you can only order from a single restaurant.</string>
+    <string name="question6">Q6 What if I forget my Username or password?</string>
+    <string name="answer6">A6 No Worries! We got you covered. You can simply click on forgot password at the login screen and you will be guided through the process to get your account back.</string>
     <string name="aboutApp">FoodAtDoor provides you a different flavor of food on a single platform through this Android mobile application. We have our own smart delivery team which pickup orders from our vendors and deliver it to customers 24x7</string>
 
 
