@@ -11,10 +11,6 @@
             android:id="@+id/profile"
             android:icon="@drawable/ic_profile"
             android:title="@string/profile" />
-        <item
-            android:id="@+id/navigation_cart"
-            android:icon="@drawable/ic_cart"
-            android:title="Cart"/>
 
         <item
             android:id="@+id/navigation_my_orders"
@@ -29,6 +25,11 @@
             android:id="@+id/faq"
             android:icon="@drawable/ic_faq"
             android:title="@string/faq" />
+
+        <item
+            android:id="@+id/aboutApp"
+            android:icon="@drawable/ic_about_app"
+            android:title="@string/about_app" />
 
     </group>
     <item android:title="@string/account_setting">
@@ -45,24 +46,7 @@
         </menu>
 
     </item>
-    <item android:title="Others">
-        <menu>
-            <item
-                android:id="@+id/share"
-                android:title="Share"
-                android:icon="@drawable/ic_share"/>
-            <item
-                android:id="@+id/rate"
-                android:title="Rate"
-                android:icon="@drawable/ic_rate"/>
 
-            <item
-                android:id="@+id/aboutApp"
-                android:icon="@drawable/ic_about_app"
-                android:title="@string/about_app" />
-
-        </menu>
-    </item>
 
 </menu>
 
