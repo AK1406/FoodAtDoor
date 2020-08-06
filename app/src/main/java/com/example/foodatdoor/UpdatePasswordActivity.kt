@@ -3,6 +3,7 @@ package com.example.foodatdoor
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -15,7 +16,6 @@ class UpdatePasswordActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var passwordEt: EditText
     private lateinit var changePasswordBtn: Button
-    private lateinit var back: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,13 +26,7 @@ class UpdatePasswordActivity : AppCompatActivity() {
         passwordEt = findViewById(R.id.password_edt_text)
 
         changePasswordBtn = findViewById(R.id.reset_pass_btn)
-        back = findViewById(R.id.back_btn)
 
-        back.setOnClickListener {
-            val intent = Intent(this, HomePageActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
 
         changePasswordBtn.setOnClickListener {
             var password: String = passwordEt.text.toString()
@@ -61,5 +55,23 @@ class UpdatePasswordActivity : AppCompatActivity() {
                     })
             }
         }
+        setToolBar()
+    }
+
+    private fun setToolBar(){
+        supportActionBar?.title="Update Password"
+        supportActionBar?.setHomeButtonEnabled(true)//enables the button on the tool bar
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)//displays the icon on the button
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back_arrow)//change icon to custom
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId){
+            android.R.id.home->{
+                super.onBackPressed()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

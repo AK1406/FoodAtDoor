@@ -1,5 +1,6 @@
 package com.example.foodatdoor
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 
 
 
-class CartAdapter(val context: Context, val cartItems:ArrayList<CartItems>):RecyclerView.Adapter<CartAdapter.ViewHolderCart>() {
+class CartAdapter(val context: Context, private val cartItems:ArrayList<CartItems>):
+    RecyclerView.Adapter<CartAdapter.ViewHolderCart>() {
 
 
     class ViewHolderCart(view: View): RecyclerView.ViewHolder(view){
@@ -19,7 +21,8 @@ class CartAdapter(val context: Context, val cartItems:ArrayList<CartItems>):Recy
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderCart {
-        val view= LayoutInflater.from(parent.context).inflate(R.layout.cart_recycler_single_row,parent,false)
+        val view= LayoutInflater.from(parent.context)
+            .inflate(R.layout.cart_recycler_single_row,parent,false)
 
         return ViewHolderCart(view)
     }
@@ -28,10 +31,9 @@ class CartAdapter(val context: Context, val cartItems:ArrayList<CartItems>):Recy
         return cartItems.size
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolderCart, position: Int) {
         val cartItemObject=cartItems[position]
-
-
         holder.textViewOrderItem.text=cartItemObject.itemName
         holder.textViewOrderItemPrice.text="Rs. "+cartItemObject.itemPrice
     }

@@ -18,8 +18,8 @@
 
         <item
             android:id="@+id/navigation_my_orders"
-            android:icon="@drawable/ic_my_orders"
-            android:title="My Orders"/>
+            android:icon="@drawable/ic_history"
+            android:title="Order History"/>
 
         <item
             android:id="@+id/navigation_favourites"

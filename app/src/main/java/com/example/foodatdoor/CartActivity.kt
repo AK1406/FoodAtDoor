@@ -1,17 +1,17 @@
 package com.example.foodatdoor
 
-import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,10 +21,12 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-
+import java.time.LocalDateTime
 
 
 lateinit var textViewOrderingFrom:TextView
@@ -35,16 +37,17 @@ lateinit var menuAdapter: CartAdapter
 lateinit var restaurantId:String
 lateinit var restaurantName:String
 lateinit var linearLayout:LinearLayout
-lateinit var progressDialog:RelativeLayout
+lateinit var activity_cart_Progressdialog:RelativeLayout
 lateinit var selectedItemsId:ArrayList<String>
+private var userId: String? = null
 
 var totalAmount=0
 
 var cartListItems = arrayListOf<CartItems>()
 
-@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class CartActivity : AppCompatActivity() {
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
@@ -52,7 +55,7 @@ class CartActivity : AppCompatActivity() {
         buttonPlaceOrder=findViewById(R.id.buttonPlaceOrder)
         textViewOrderingFrom=findViewById(R.id.textViewOrderingFrom)
         linearLayout=findViewById(R.id.linearLayout)
-        progressDialog=findViewById(R.id.activity_cart_Progressdialog)
+        activity_cart_Progressdialog=findViewById(R.id.activity_cart_Progressdialog)
 
         restaurantId=intent.getStringExtra("restaurantId")
         restaurantName=intent.getStringExtra("restaurantName")
@@ -61,135 +64,15 @@ class CartActivity : AppCompatActivity() {
         //set the restaurant name
         textViewOrderingFrom.text= restaurantName
 
-        buttonPlaceOrder.setOnClickListener(View.OnClickListener {
+        buttonPlaceOrder.setOnClickListener{
+            saveOrder()
+            val intent =Intent(this,OrderPlacedActivity::class.java)
+            startActivity(intent)
 
-            val sharedPreferencess=this.getSharedPreferences(getString(R.string.shared_preferences),
-                Context.MODE_PRIVATE)
-
-            if (ConnectionManager().checkConnectivity(this)) {
-
-                progressDialog.visibility=View.VISIBLE
-
-                try {
-
-                    val foodJsonArray=JSONArray()
-
-                    for (foodItem in selectedItemsId){
-                        val singleItemObject=JSONObject()
-                        singleItemObject.put("food_item_id",foodItem)
-                        foodJsonArray.put(singleItemObject)
-
-                    }
-
-                    val sendOrder = JSONObject()
-                    sendOrder.put("user_id",sharedPreferencess.getString("user_id","0"))
-                    sendOrder.put("res_id",restaurantId.toString())
-                    sendOrder.put("total_cost", totalAmount)
-                    sendOrder.put("food_id",foodJsonArray)
-
-                    val queue = Volley.newRequestQueue(this)
-
-                    val url = "http://13.235.250.119/v2/place_order/fetch_result/"
-
-                    val jsonObjectRequest = object : JsonObjectRequest(
-                        Request.Method.POST,
-                        url,
-                        sendOrder,
-                        Response.Listener {
-
-                            val responseJsonObjectData = it.getJSONObject("data")
-
-                            val success = responseJsonObjectData.getBoolean("success")
-
-                            if (success) {
-
-                                Toast.makeText(
-                                    this,
-                                    "Order Placed",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+        }
 
 
-                                createNotification()
-
-
-
-                                val intent= Intent(this,OrderPlacedActivity::class.java)
-
-                                startActivity(intent)
-
-                                finishAffinity()//destory all previous activities
-
-
-                            } else {
-                                val responseMessageServer =
-                                    responseJsonObjectData.getString("errorMessage")
-                                Toast.makeText(
-                                    this,
-                                    responseMessageServer.toString(),
-                                    Toast.LENGTH_SHORT
-                                ).show()
-
-                            }
-                            progressDialog.visibility=View.INVISIBLE
-                        },
-                        Response.ErrorListener {
-
-                            Toast.makeText(
-                                this,
-                                "Some Error occurred!!! $it",
-                                Toast.LENGTH_SHORT
-                            ).show()
-
-                        }) {
-                        override fun getHeaders(): MutableMap<String, String> {
-                            val headers = HashMap<String, String>()
-
-                            headers["Content-Type"] = "application/json"
-                            headers["token"] = "c3b5e952c8e343"  //c3b5e952c8e343
-
-                            return headers
-                        }
-                    }
-                    jsonObjectRequest.retryPolicy = DefaultRetryPolicy(15000,
-                        1,
-                        1f
-                    )
-
-                    queue.add(jsonObjectRequest)
-
-                } catch (e: JSONException) {
-                    Toast.makeText(
-                        this,
-                        "Some unexpected error occurred!!! $e",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                }
-
-            }else
-            {
-
-                val alterDialog=androidx.appcompat.app.AlertDialog.Builder(this)
-                alterDialog.setTitle("No Internet")
-                alterDialog.setMessage("Internet Connection can't be establish!")
-                alterDialog.setPositiveButton("Open Settings"){text,listener->
-                    val settingsIntent= Intent(Settings.ACTION_SETTINGS)//open wifi settings
-                    startActivity(settingsIntent)
-                }
-
-                alterDialog.setNegativeButton("Exit"){ text,listener->
-                    finishAffinity()//closes all the instances of the app and the app closes completely
-                }
-                alterDialog.setCancelable(false)
-
-                alterDialog.create()
-                alterDialog.show()
-            }
-        })
-
-
-        //setToolBar()
+        setToolBar()
 
         layoutManager = LinearLayoutManager(this)//set the layout manager
 
@@ -202,29 +85,27 @@ class CartActivity : AppCompatActivity() {
 
         if (ConnectionManager().checkConnectivity(this)) {
 
-            progressDialog.visibility=View.VISIBLE
+            activity_cart_Progressdialog.visibility=View.VISIBLE
 
             try {
 
                 val queue = Volley.newRequestQueue(this)
 
-                val url =
-                    "http://13.235.250.119/v2/restaurants/fetch_result/$restaurantId"
+                val url = "http://13.235.250.119/v2/restaurants/fetch_result/$restaurantId"
 
-                val jsonObjectRequest = @SuppressLint("SetTextI18n")
-                object : JsonObjectRequest(
+                val jsonObjectRequest = object : JsonObjectRequest(
                     Request.Method.GET,
                     url,
                     null,
                     Response.Listener {
 
-                        val Data = it.getJSONObject("data")
+                        val responseJsonObjectData = it.getJSONObject("data")
 
-                        val success = Data.getBoolean("success")
+                        val success = responseJsonObjectData.getBoolean("success")
 
                         if (success) {
 
-                            val data = Data.getJSONArray("data")
+                            val data = responseJsonObjectData.getJSONArray("data")
 
                             //old listener of jsonObjectRequest are still listening therefore clear is used
                             cartListItems.clear()//clear all items to get updated values
@@ -236,22 +117,15 @@ class CartActivity : AppCompatActivity() {
 
                                 if(selectedItemsId.contains(cartItemJsonObject.getString("id")))//if the fetched id is present in the selected id save
                                 {
-
                                     val menuObject = CartItems(
                                         cartItemJsonObject.getString("id"),
                                         cartItemJsonObject.getString("name"),
                                         cartItemJsonObject.getString("cost_for_one"),
                                         cartItemJsonObject.getString("restaurant_id"))
-
-                                    totalAmount += cartItemJsonObject.getString("cost_for_one")
-                                        .toString().toInt()
-
-
+                                    totalAmount += cartItemJsonObject.getString("cost_for_one").toString().toInt()
                                     cartListItems.add(menuObject)
-
                                 }
                                 //progressBar.visibility = View.GONE
-
                                 menuAdapter = CartAdapter(
                                     this,//pass the relativelayout which has the button to enable it later
                                     cartListItems
@@ -262,32 +136,26 @@ class CartActivity : AppCompatActivity() {
 
                                 recyclerView.layoutManager =
                                     layoutManager //bind the  recyclerView to the layoutManager
-
                             }
 
                             //set the total on the button
                             buttonPlaceOrder.text= "Place Order(Total:Rs. $totalAmount)"
-
                         }
-                        progressDialog.visibility=View.INVISIBLE
+                        activity_cart_Progressdialog.visibility=View.INVISIBLE
                     },
                     Response.ErrorListener {
-
                         Toast.makeText(
                             this,
-                            "Some Error occurred!!! $it",
+                            "Error occurred : $it",
                             Toast.LENGTH_SHORT
                         ).show()
-
-                        progressDialog.visibility=View.INVISIBLE
+                        activity_cart_Progressdialog.visibility=View.INVISIBLE
 
                     }) {
                     override fun getHeaders(): MutableMap<String, String> {
                         val headers = HashMap<String, String>()
-
                         headers["Content-Type"] = "application/json"
-                        headers["token"] = "c3b5e952c8e343"  //c3b5e952c8e343
-
+                        headers["token"] = "c3b5e952c8e343"
                         return headers
                     }
                 }
@@ -297,7 +165,7 @@ class CartActivity : AppCompatActivity() {
             } catch (e: JSONException) {
                 Toast.makeText(
                     this,
-                    "Some Unexpected error occured!!! $e",
+                    "error :$e",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -324,20 +192,17 @@ class CartActivity : AppCompatActivity() {
         }
 
     }
-/*
-    fun setToolBar(){
-        setSupportActionBar(toolbar)
+
+    private fun setToolBar(){
         supportActionBar?.title="My Cart"
         supportActionBar?.setHomeButtonEnabled(true)//enables the button on the tool bar
         supportActionBar?.setDisplayHomeAsUpEnabled(true)//displays the icon on the button
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back_arrow)//change icon to custom
-    }*/
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        val id=item.itemId
-
-        when(id){
+        when(item.itemId){
             android.R.id.home->{
                 super.onBackPressed()
             }
@@ -379,8 +244,6 @@ class CartActivity : AppCompatActivity() {
         val notificationId=1;
         val channelId="personal_notification"
 
-
-
         val notificationBulider=NotificationCompat.Builder(this,channelId)
         notificationBulider.setSmallIcon(R.drawable.fud)
         notificationBulider.setContentTitle("Order Placed")
@@ -391,20 +254,34 @@ class CartActivity : AppCompatActivity() {
         val notificationManagerCompat=NotificationManagerCompat.from(this)
         notificationManagerCompat.notify(notificationId,notificationBulider.build())
 
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O)//less than zero
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O)//less than oreo
         {
             val name ="Order Placed"
             val description="Your order has been successfully placed!"
             val importance=NotificationManager.IMPORTANCE_DEFAULT
-
             val notificationChannel=NotificationChannel(channelId,name,importance)
-
             notificationChannel.description=description
-
             val notificationManager=  (getSystemService(Context.NOTIFICATION_SERVICE)) as NotificationManager
-
             notificationManager.createNotificationChannel(notificationChannel)
+        }
+    }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun saveOrder(){
+        val myRef = FirebaseDatabase.getInstance().getReference("Orders") // making reference for the object of profile
+        val user = FirebaseAuth.getInstance().currentUser
+        userId = user!!.uid
+        val time = LocalDateTime.now().toString()
+        val orderId = myRef.push().key //generating random key
+        val orderInfo = orderId?.let { OrderHistoryModel(it, restaurantName,
+            totalAmount.toString(),time, cartListItems)
+        }
+        if (orderId != null) {
+            //set the taken information
+            myRef.child(userId!!).setValue(orderInfo).addOnCompleteListener {
+                Toast.makeText(this, "Your Order is placed successfully ", Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
     }
 }

@@ -61,7 +61,7 @@ class DescriptionRecyclerAdapter(val context:Context, private val restaurantId:S
        buttonProceedToCart.setOnClickListener(View.OnClickListener {
 
            val intent= Intent(context, CartActivity::class.java)
-           intent.putExtra("restaurantId",restaurantId.toString())// pass the restaurant id to the next acticity
+           intent.putExtra("restaurantId",restaurantId.toString())// pass the restaurant id to the next activity
            intent.putExtra("restaurantName",restaurantName)
            intent.putExtra("selectedItemsId",itemsSelectedId)//pass all the items selected by the user
            context.startActivity(intent)
@@ -70,11 +70,11 @@ class DescriptionRecyclerAdapter(val context:Context, private val restaurantId:S
 
         holder.buttonAddToCart.setOnClickListener(View.OnClickListener {
 
-            if(holder.buttonAddToCart.text.toString().equals("Remove"))
+            if(holder.buttonAddToCart.text.toString() == "Remove")
             {
                 itemSelectedCount--//unselected
 
-                itemsSelectedId.remove(holder.buttonAddToCart.getTag().toString())
+                itemsSelectedId.remove(holder.buttonAddToCart.tag.toString())
 
                 holder.buttonAddToCart.text="Add"
 

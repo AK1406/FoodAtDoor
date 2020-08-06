@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#fff"
     tools:context=".CartActivity"
-    android:id="@+id/drawerLayout">
+    android:id="@+id/cartLayout">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"

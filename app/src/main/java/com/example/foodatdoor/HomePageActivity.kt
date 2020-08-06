@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_home_page.*
@@ -79,16 +78,16 @@ class HomePageActivity : AppCompatActivity() {
                     navigationPosition =R.id.rate
                     //navigateToFragment(AboutAppFragment.newInstance())
                 }
-                /*R.id.navigation_cart -> {
+               /* R.id.navigation_cart -> {
                     toolbar.title = getString(R.string.cart)
                     navigationPosition = R.id.navigation_cart
                     val intent = Intent(this,CartActivity::class.java) //navigate to Activity
                     startActivity(intent)
                 }*/
                 R.id.navigation_my_orders -> {
-                    toolbar.title = "My Orders"
+                    toolbar.title = "Orders History"
                     navigationPosition =R.id.navigation_my_orders
-                    navigateToFragment(MyOrderFragment.newInstance())
+                    navigateToFragment(OrderHistoryFragment.newInstance())
                 }R.id.navigation_favourites-> {
                 toolbar.title = "Favourites"
                 navigationPosition =R.id.navigation_favourites
