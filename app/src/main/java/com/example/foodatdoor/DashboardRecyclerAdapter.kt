@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import java.util.*
 
-class DashboardRecyclerAdapter(val context: Context, val restList: ArrayList<Restaurant>) :
+class DashboardRecyclerAdapter(val context: Context, var restList: ArrayList<Restaurant>) :
     RecyclerView.Adapter<DashboardRecyclerAdapter.DashboardViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DashboardViewHolder {
@@ -118,7 +118,6 @@ class DashboardRecyclerAdapter(val context: Context, val restList: ArrayList<Res
             }
         }
 
-
     }
 
     class DashboardViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -130,6 +129,10 @@ class DashboardRecyclerAdapter(val context: Context, val restList: ArrayList<Res
         val addFav :ImageView=view.findViewById(R.id.btnAddToFav)
     }
 
+    fun filterList(filteredList: ArrayList<Restaurant>) {//to update the recycler view depending on the search
+        restList = filteredList
+        notifyDataSetChanged()
+    }
 
 }
 

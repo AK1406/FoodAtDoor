@@ -8,12 +8,12 @@ import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.provider.Settings
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
@@ -21,9 +21,7 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import kotlinx.android.synthetic.main.recycler_dashboard_single_row.*
 import org.json.JSONException
-import org.json.JSONObject
 import java.util.*
 import kotlin.Comparator
 import kotlin.collections.HashMap
@@ -41,6 +39,10 @@ class DashboardFragment : Fragment() {
     lateinit var progressBar: ProgressBar
 
 
+    lateinit var editTextSearch:EditText
+  //  lateinit var cantFindRestaurant:RelativeLayout
+
+     private var dashboardAdapter: DashboardRecyclerAdapter? =null
 
 
     companion object {
@@ -78,6 +80,10 @@ class DashboardFragment : Fragment() {
         progressBar = view.findViewById(R.id.progressBar)
 
         progressLayout.visibility = View.VISIBLE
+
+        editTextSearch=view.findViewById(R.id.editTextSearch)
+
+         val cantFindRestaurant=view.findViewById<RelativeLayout>(R.id.cant_find_restaurant)
 
         layoutManager = LinearLayoutManager(activity)
 
@@ -158,6 +164,43 @@ class DashboardFragment : Fragment() {
             dialog.create()
             dialog.show()
         }
+        fun filterFun(strTyped:String){//to filter the recycler view depending on what is typed
+            val filteredList= arrayListOf<Restaurant>()
+
+            for (item in restInfoList){
+                if(item.restName.toLowerCase().contains(strTyped.toLowerCase())){//to ignore case and if contained add to new lis
+                    filteredList.add(item)
+
+
+                }
+            }
+            val l=filteredList
+            if(filteredList.size==0){
+                cantFindRestaurant.visibility=View.VISIBLE
+            }
+            else{
+                cantFindRestaurant.visibility=View.INVISIBLE
+            }
+
+            dashboardAdapter?.filterList(filteredList)
+
+        }
+
+        editTextSearch.addTextChangedListener(object : TextWatcher {//as the user types the search filter is applied
+        override fun afterTextChanged(strTyped: Editable?) {
+            filterFun(strTyped.toString())
+        }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+        }
+        )
+
 
         return view
     }

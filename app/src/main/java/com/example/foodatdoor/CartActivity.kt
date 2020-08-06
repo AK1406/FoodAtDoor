@@ -26,7 +26,7 @@ import org.json.JSONException
 import org.json.JSONObject
 
 
-lateinit var toolbar:androidx.appcompat.widget.Toolbar
+
 lateinit var textViewOrderingFrom:TextView
 lateinit var buttonPlaceOrder: Button
 lateinit var recyclerView: RecyclerView
@@ -35,7 +35,7 @@ lateinit var menuAdapter: CartAdapter
 lateinit var restaurantId:String
 lateinit var restaurantName:String
 lateinit var linearLayout:LinearLayout
-lateinit var activity_cart_Progressdialog:RelativeLayout
+lateinit var progressDialog:RelativeLayout
 lateinit var selectedItemsId:ArrayList<String>
 
 var totalAmount=0
@@ -52,7 +52,7 @@ class CartActivity : AppCompatActivity() {
         buttonPlaceOrder=findViewById(R.id.buttonPlaceOrder)
         textViewOrderingFrom=findViewById(R.id.textViewOrderingFrom)
         linearLayout=findViewById(R.id.linearLayout)
-        activity_cart_Progressdialog=findViewById(R.id.activity_cart_Progressdialog)
+        progressDialog=findViewById(R.id.activity_cart_Progressdialog)
 
         restaurantId=intent.getStringExtra("restaurantId")
         restaurantName=intent.getStringExtra("restaurantName")
@@ -68,7 +68,7 @@ class CartActivity : AppCompatActivity() {
 
             if (ConnectionManager().checkConnectivity(this)) {
 
-                activity_cart_Progressdialog.visibility=View.VISIBLE
+                progressDialog.visibility=View.VISIBLE
 
                 try {
 
@@ -82,11 +82,10 @@ class CartActivity : AppCompatActivity() {
                     }
 
                     val sendOrder = JSONObject()
-
                     sendOrder.put("user_id",sharedPreferencess.getString("user_id","0"))
-                    sendOrder.put("restaurant_id",restaurantId.toString())
+                    sendOrder.put("res_id",restaurantId.toString())
                     sendOrder.put("total_cost", totalAmount)
-                    sendOrder.put("food",foodJsonArray)
+                    sendOrder.put("food_id",foodJsonArray)
 
                     val queue = Volley.newRequestQueue(this)
 
@@ -132,7 +131,7 @@ class CartActivity : AppCompatActivity() {
                                 ).show()
 
                             }
-                            activity_cart_Progressdialog.visibility=View.INVISIBLE
+                            progressDialog.visibility=View.INVISIBLE
                         },
                         Response.ErrorListener {
 
@@ -152,17 +151,17 @@ class CartActivity : AppCompatActivity() {
                             return headers
                         }
                     }
-                    jsonObjectRequest.setRetryPolicy( DefaultRetryPolicy(15000,
+                    jsonObjectRequest.retryPolicy = DefaultRetryPolicy(15000,
                         1,
                         1f
-                    ))
+                    )
 
                     queue.add(jsonObjectRequest)
 
                 } catch (e: JSONException) {
                     Toast.makeText(
                         this,
-                        "Some unexpected error occured!!! $e",
+                        "Some unexpected error occurred!!! $e",
                         Toast.LENGTH_SHORT
                     ).show()
 
@@ -203,7 +202,7 @@ class CartActivity : AppCompatActivity() {
 
         if (ConnectionManager().checkConnectivity(this)) {
 
-            activity_cart_Progressdialog.visibility=View.VISIBLE
+            progressDialog.visibility=View.VISIBLE
 
             try {
 
@@ -270,7 +269,7 @@ class CartActivity : AppCompatActivity() {
                             buttonPlaceOrder.text= "Place Order(Total:Rs. $totalAmount)"
 
                         }
-                        activity_cart_Progressdialog.visibility=View.INVISIBLE
+                        progressDialog.visibility=View.INVISIBLE
                     },
                     Response.ErrorListener {
 
@@ -280,7 +279,7 @@ class CartActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
 
-                        activity_cart_Progressdialog.visibility=View.INVISIBLE
+                        progressDialog.visibility=View.INVISIBLE
 
                     }) {
                     override fun getHeaders(): MutableMap<String, String> {

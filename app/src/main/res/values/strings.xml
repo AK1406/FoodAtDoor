@@ -48,5 +48,6 @@
 
     <string name="ordering_from">Ordering Form</string>
     <string name="cart">My Cart</string>
+    <string name="can_t_find_any_restaurant_with_that_name">Can\'t find restaurant with the name</string>
 
 </resources>
