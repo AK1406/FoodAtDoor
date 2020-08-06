@@ -21,21 +21,20 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import kotlinx.android.synthetic.main.sort_radio_buttons.view.*
 import org.json.JSONException
 import java.util.*
 import kotlin.Comparator
 import kotlin.collections.HashMap
 
-class DashboardFragment : Fragment() {
+class DashboardFragment() : Fragment() {
 
     lateinit var recyclerDashboard: RecyclerView
 
     lateinit var layoutManager: RecyclerView.LayoutManager
-
     lateinit var recyclerAdapter: DashboardRecyclerAdapter
-
     lateinit var progressLayout: RelativeLayout
-
+    lateinit var radioButtonView:View
     lateinit var progressBar: ProgressBar
 
 
@@ -50,19 +49,25 @@ class DashboardFragment : Fragment() {
             return DashboardFragment()
         }
     }
-
     val restInfoList = arrayListOf<Restaurant>()
 
-    var ratingComparator = Comparator<Restaurant>{rest1, rest2 ->
 
-        if (rest1.restRating.compareTo(rest2.restRating, true) == 0) {
-            // sort according to name if rating is same
-            rest1.restName.compareTo(rest2.restName, true)
-        } else {
-            rest1.restRating.compareTo(rest2.restRating, true)
+    private var ratingComparator= Comparator<Restaurant> { rest1, rest2 ->
+
+        if(rest1.restRating.compareTo(rest2.restRating,true)==0){
+            rest1.restName.compareTo(rest2.restName,true)
         }
+        else{
+            rest1.restRating.compareTo(rest2.restRating,true)
+        }
+
     }
 
+    private var costComparator= Comparator<Restaurant> { rest1, rest2 ->
+
+        rest1.restPrice.compareTo(rest2.restPrice,true)
+
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -210,15 +215,39 @@ class DashboardFragment : Fragment() {
         inflater.inflate(R.menu.menu_dashboard, menu)
     }
 
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        val id = item.itemId
-        if (id == R.id.action_sort){
-            Collections.sort(restInfoList, ratingComparator)
-            restInfoList.reverse()
-        }
+        when(item.itemId){
 
-        recyclerAdapter.notifyDataSetChanged()
+            R.id.action_sort->{
+                radioButtonView= View.inflate(context,R.layout.sort_radio_buttons,null)//radiobutton view for sorting display
+                androidx.appcompat.app.AlertDialog.Builder(activity as Context)
+                    .setTitle("Sort By?")
+                    .setView(radioButtonView)
+                    .setPositiveButton("OK") { text, listener ->
+                        if (radioButtonView.radio_high_to_low.isChecked) {
+                            Collections.sort(restInfoList, costComparator)
+                            restInfoList.reverse()
+                            dashboardAdapter?.notifyDataSetChanged()//updates the adapter
+                        }
+                        if (radioButtonView.radio_low_to_high.isChecked) {
+                            Collections.sort(restInfoList, costComparator)
+                            dashboardAdapter?.notifyDataSetChanged()//updates the adapter
+                        }
+                        if (radioButtonView.radio_rating.isChecked) {
+                            Collections.sort(restInfoList, ratingComparator)
+                            restInfoList.reverse()
+                            dashboardAdapter?.notifyDataSetChanged()//updates the adapter
+                        }
+                    }
+                    .setNegativeButton("CANCEL") { text, listener ->
+
+                    }
+                    .create()
+                    .show()
+            }
+        }
 
         return super.onOptionsItemSelected(item)
     }
@@ -266,4 +295,6 @@ class DashboardFragment : Fragment() {
         }
 
     }
+
+
 }
