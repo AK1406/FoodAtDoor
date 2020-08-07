@@ -72,7 +72,8 @@ class CartActivity : AppCompatActivity() {
 
         buttonPlaceOrder.setOnClickListener{
             saveOrder()
-            val intent =Intent(this,OrderPlacedActivity::class.java)
+            val intent =Intent(this,PayPalActivity::class.java)
+            intent.putExtra("totalBill", totalAmount.toString())
             startActivity(intent)
 
         }
@@ -292,8 +293,7 @@ class CartActivity : AppCompatActivity() {
         if (orderId != null) {
             //set the taken information
             myRef.child(userId!!).child(orderId).setValue(orderInfo).addOnCompleteListener {
-                Toast.makeText(this, "Your Order is placed successfully ", Toast.LENGTH_SHORT)
-                    .show()
+              //  Toast.makeText(this, "Your Order is placed successfully ", Toast.LENGTH_SHORT) .show()
             }
         }
 

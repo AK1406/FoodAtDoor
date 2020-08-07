@@ -13,7 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".OrderPlacedActivity"></activity>
+        <activity android:name=".ConfirmationActivity"/>
+        <activity android:name=".PayPalActivity" />
+        <activity android:name=".OrderPlacedActivity" />
         <activity
             android:name=".CartActivity"
             android:label="My Cart" />
@@ -24,7 +26,6 @@
         <activity android:name=".UpdatePasswordActivity" />
         <activity android:name=".ForgotPasswordActivity" />
         <activity android:name=".SignUpActivity" />
-        <activity android:name=".OrderHistoryActivity" />
         <activity android:name=".LoginActivity" />
         <activity
             android:name=".HomePageActivity"
