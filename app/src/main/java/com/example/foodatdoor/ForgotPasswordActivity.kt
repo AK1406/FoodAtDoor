@@ -13,7 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 class ForgotPasswordActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
-    private lateinit var emailEt: EditText
+    private  var emailEt: EditText?=null
     private lateinit var resetPasswordBtn: Button
     private lateinit var back: Button
 
@@ -33,7 +33,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
         }
 
         resetPasswordBtn.setOnClickListener {
-            var email: String = emailEt.text.toString()
+            var email: String = emailEt?.text.toString()
             if (TextUtils.isEmpty(email)) {
                 Toast.makeText(this, "Please enter email id", Toast.LENGTH_LONG).show()
             } else {

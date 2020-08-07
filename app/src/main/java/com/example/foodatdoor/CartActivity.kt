@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.provider.Settings
 import android.view.MenuItem
 import android.view.View
@@ -14,19 +15,22 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import org.json.JSONArray
 import org.json.JSONException
-import org.json.JSONObject
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 lateinit var textViewOrderingFrom:TextView
@@ -46,6 +50,8 @@ var totalAmount=0
 var cartListItems = arrayListOf<CartItems>()
 
 class CartActivity : AppCompatActivity() {
+
+    private var dataFromActivityToFragment: DataFromActivityToFragment? = null
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -265,16 +271,23 @@ class CartActivity : AppCompatActivity() {
             notificationManager.createNotificationChannel(notificationChannel)
         }
     }
-
+    private fun getCurrentDateTime(): Date {
+        return Calendar.getInstance().time
+    }
+    fun Date.toString(format: String, locale: Locale = Locale.getDefault()): String {
+        val formatter = SimpleDateFormat(format, locale)
+        return formatter.format(this)
+    }
     @RequiresApi(Build.VERSION_CODES.O)
     private fun saveOrder(){
         val myRef = FirebaseDatabase.getInstance().getReference("Orders") // making reference for the object of profile
         val user = FirebaseAuth.getInstance().currentUser
         userId = user!!.uid
-        val time = LocalDateTime.now().toString()
+        val date = getCurrentDateTime()
+        val dateInString = date.toString("yyyy/MM/dd HH:mm:ss")
         val orderId = myRef.push().key //generating random key
         val orderInfo = orderId?.let { OrderHistoryModel(it, restaurantName,
-            totalAmount.toString(),time, cartListItems)
+            totalAmount.toString(),dateInString, cartListItems)
         }
         if (orderId != null) {
             //set the taken information
@@ -283,6 +296,27 @@ class CartActivity : AppCompatActivity() {
                     .show()
             }
         }
+
+        val newFragment: Fragment = OrderHistoryFragment()
+        dataFromActivityToFragment = newFragment as DataFromActivityToFragment
+        val ft =
+            supportFragmentManager.beginTransaction()
+        ft.replace(R.id.cartLayout, newFragment)
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+        ft.addToBackStack(null)
+        ft.commit()
+        //pass crop name to CropRegCameraFragment fragment
+        //pass crop name to CropRegCameraFragment fragment
+        val handler = Handler()
+        val r =
+            Runnable { dataFromActivityToFragment!!.sendData(orderId.toString()) }
+        handler.postDelayed(r, 5000)
+
+    }
+
+
+    interface DataFromActivityToFragment {
+        fun sendData(data: String?)
     }
 }
 

@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.core.app.ActivityCompat.finishAffinity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -23,11 +24,12 @@ lateinit var order_history_fragment_no_orders: RelativeLayout
 private  var orderList:MutableList<OrderHistoryModel> = mutableListOf()
 private lateinit var myRef: DatabaseReference
 private lateinit var listView: ListView
-private lateinit var listViewItem:ListView
+private  var listViewItem:ListView?=null
 private var userId: String? = null
 private var itemList:MutableList<CartItems> = mutableListOf()
+private var orderItemId = ""
 
-class OrderHistoryFragment: Fragment() {
+class OrderHistoryFragment: Fragment(), CartActivity.DataFromActivityToFragment {
 
     companion object {
         fun newInstance(): Fragment {
@@ -40,6 +42,24 @@ class OrderHistoryFragment: Fragment() {
         myRef = FirebaseDatabase.getInstance().getReference("Orders")
         val user = FirebaseAuth.getInstance().currentUser
         userId = user!!.uid
+    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_history_order, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        order_activity_history_Progressdialog=view.findViewById(R.id.order_activity_history_Progressdialog)
+        order_history_fragment_no_orders=view.findViewById(R.id.order_history_fragment_no_orders)
+
+        listView=view.findViewById(R.id.listViewAllOrders)
+        listViewItem=view.findViewById(R.id.ViewItemsOrdered)
+
+    }
+
+    private fun listOne(){
         myRef.child(userId!!).addValueEventListener(object:
             ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
@@ -60,8 +80,10 @@ class OrderHistoryFragment: Fragment() {
             }
 
         })
+    }
 
-        myRef.child(userId!!).child("orderList").addValueEventListener(object:
+    private fun listTwo(){
+        myRef.child(userId!!).child(orderItemId).child("orderList").addValueEventListener(object:
             ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 TODO("Not yet implemented")
@@ -76,33 +98,17 @@ class OrderHistoryFragment: Fragment() {
                     val adapter=OrderedItemListAdapter(context as Activity
                         ,R.layout.order_item_single_row,
                         itemList)
-                    listViewItem.adapter=adapter
+                    listViewItem?.adapter=adapter
                 }
             }
-
         })
     }
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_history_order, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        order_activity_history_Progressdialog=view.findViewById(R.id.order_activity_history_Progressdialog)
-        order_history_fragment_no_orders=view.findViewById(R.id.order_history_fragment_no_orders)
-
-        listView=view.findViewById(R.id.listViewAllOrders)
-        listViewItem=view.findViewById(R.id.ViewItemsOrdered)
-
-
-    }
-
 
     override fun onResume() {
 
         if (ConnectionManager().checkConnectivity(activity as Context)) {
+            listOne()
+            listTwo()
         }else
         {
 
@@ -125,5 +131,8 @@ class OrderHistoryFragment: Fragment() {
         }
 
         super.onResume()
+    }
+    override fun sendData(data: String?) {
+        if (data != null) orderItemId=data
     }
 }
