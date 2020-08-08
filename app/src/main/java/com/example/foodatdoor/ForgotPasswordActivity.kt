@@ -1,19 +1,20 @@
 package com.example.foodatdoor
 
-import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
-/**to reset password if forgotten **/
+
 class ForgotPasswordActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
-    private  var emailEt: EditText?=null
+
+    private lateinit var emailEt: EditText
+
     private lateinit var resetPasswordBtn: Button
     private lateinit var back: Button
 
@@ -22,18 +23,18 @@ class ForgotPasswordActivity : AppCompatActivity() {
         setContentView(R.layout.activity_forgot_password)
 
         auth = FirebaseAuth.getInstance()
+
         emailEt = findViewById(R.id.email_edt_text)
+
         resetPasswordBtn = findViewById(R.id.reset_pass_btn)
         back = findViewById(R.id.back_btn)
 
         back.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
             finish()
         }
 
         resetPasswordBtn.setOnClickListener {
-            var email: String = emailEt?.text.toString()
+            var email: String = emailEt.text.toString()
             if (TextUtils.isEmpty(email)) {
                 Toast.makeText(this, "Please enter email id", Toast.LENGTH_LONG).show()
             } else {

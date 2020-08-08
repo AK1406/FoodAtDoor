@@ -28,7 +28,7 @@ class InfoAfterGoogle : AppCompatActivity() {
     private lateinit var phnNo: EditText
     private lateinit var emailEt: TextView
 
-    lateinit var sharedPreferences: SharedPreferences
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,11 +72,11 @@ class InfoAfterGoogle : AppCompatActivity() {
                         Toast.makeText(this, "Phone no. is incorrect", Toast.LENGTH_LONG).show()
                     }
                     if (pinCode.length != 6) {   // checking no. of digits in pin code
-                        Toast.makeText(this, "Pin code must be of 6 digit", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "incorrect pin code", Toast.LENGTH_LONG).show()
                     }
                 }
-
             Toast.makeText(this, "Successfully Registered", Toast.LENGTH_LONG).show()
+
             /**calling saveInfo (function) to save information of user to database**/
             savePreferences()
             saveInfo(name, address,pinCode, phnNo) //passing registered email id and dob
