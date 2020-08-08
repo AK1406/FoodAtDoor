@@ -94,7 +94,6 @@ class SignUpActivity : AppCompatActivity() {
                 val intent =Intent(this,VerifyPhone::class.java)
                 startActivity(intent)
             }
-
             builder.show()
 
         }

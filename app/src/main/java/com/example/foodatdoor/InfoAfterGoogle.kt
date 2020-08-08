@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -56,7 +57,6 @@ class InfoAfterGoogle : AppCompatActivity() {
         submitBtn = findViewById(R.id.submitBtn)
 
         emailEt.text=user?.email
-
         auth = FirebaseAuth.getInstance() // making instance of firebaseAuth
         submitBtn.setOnClickListener {
             /**Taking information from user and assign them to variables to hold them **/
@@ -80,6 +80,16 @@ class InfoAfterGoogle : AppCompatActivity() {
             /**calling saveInfo (function) to save information of user to database**/
             savePreferences()
             saveInfo(name, address,pinCode, phnNo) //passing registered email id and dob
+
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Verification!")
+            builder.setMessage("Verify Your Phone No.")
+            builder.setIcon(android.R.drawable.ic_dialog_alert)
+            builder.setPositiveButton("OK") { dialog, which ->
+                val intent =Intent(this,VerifyPhone::class.java)
+                startActivity(intent)
+            }
+            builder.show()
         }
     }
 
