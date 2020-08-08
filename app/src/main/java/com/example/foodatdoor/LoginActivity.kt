@@ -17,13 +17,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_login.*
 
-class LoginActivity : AppCompatActivity() , View.OnClickListener{
+class LoginActivity : AppCompatActivity(){
 
     private  var auth: FirebaseAuth?=null
     lateinit var gso: GoogleSignInOptions
@@ -52,10 +53,11 @@ class LoginActivity : AppCompatActivity() , View.OnClickListener{
             .requestEmail()
             .build()
         this.mGoogleSignInClient = GoogleSignIn.getClient(this, gso) // passing google sign in option to client
+        google_login_btn.setOnClickListener{
+            signIn()
+        }
 
-        google_login_btn.setOnClickListener(this)
-
-        FirebaseApp.initializeApp(this) //initializing firebase app
+     //   FirebaseApp.initializeApp(this) //initializing firebase app
         /**getting instance of firebase auth so that we can compare email and password to login**/
         auth = FirebaseAuth.getInstance()
 
@@ -131,7 +133,7 @@ class LoginActivity : AppCompatActivity() , View.OnClickListener{
 
     }
 
-
+/*
     public override fun onStart() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
@@ -140,34 +142,36 @@ class LoginActivity : AppCompatActivity() , View.OnClickListener{
             Log.d(TAG, "Currently Signed in: " + currentUser.email!!)
             Toast.makeText(this@LoginActivity, "Currently Logged in: " + currentUser.email!!, Toast.LENGTH_LONG).show()
         }
-    }
-    override fun onClick(v: View) {
+    }*/
+    /*override fun onClick(v: View) {
         when (v.id) {
             google_login_btn.id -> signIn()
         }
-    }
+    }*/
 
-    private fun signIn() {  //function for google sign in
+    private fun signIn () {
         val signInIntent: Intent = mGoogleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
-    /** intent after login**/
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_SIGN_IN) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 val account: GoogleSignInAccount? = task.getResult(ApiException::class.java)
-                Toast.makeText(this,"Google SignIn Successful",Toast.LENGTH_LONG).show()
-                firebaseAuthWithGoogle(account!!)
+                if (account != null) {
+                    val intent =Intent(this,InfoAfterGoogle::class.java)
+                    startActivity(intent)
+                    Toast.makeText(this, "Google Sign in Succeeded", Toast.LENGTH_LONG).show()
+                    finish()
+                    firebaseAuthWithGoogle(account!!)
+                }
             } catch (e: ApiException) {
                 Toast.makeText(this, "Google Sign in Failed $e", Toast.LENGTH_LONG).show()
             }
         }
     }
-
-    /**authentication for google signin **/
     private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
 
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
@@ -175,23 +179,11 @@ class LoginActivity : AppCompatActivity() , View.OnClickListener{
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val user = auth!!.currentUser
-                    val intent = Intent(this, InfoAfterGoogle::class.java)
-                    startActivity(intent)
-                    Toast.makeText(
-                        this@LoginActivity,
-                        "Authentication successful :" + user!!.email,
-                        Toast.LENGTH_LONG
-                    ).show()
-
+                    Toast.makeText(this@LoginActivity, "Authentication successfull :"+user!!.email, Toast.LENGTH_LONG).show()
 
                 } else {
-                    Toast.makeText(
-                        this@LoginActivity,
-                        "Authentication failed:" + task.exception!!,
-                        Toast.LENGTH_LONG
-                    ).show()
+                    Toast.makeText(this@LoginActivity, "Authentication failed:" + task.exception!!, Toast.LENGTH_LONG).show()
                 }
             }
     }
-
 }

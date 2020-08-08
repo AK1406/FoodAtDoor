@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "1027991724746-fer6c7ta4mnrilminfts9gai1irv3buc.apps.googleusercontent.com",
+          "client_id": "1027991724746-bavemkdlj15bis1cfkrhhb53n0em5d86.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.foodatdoor",
-            "certificate_hash": "19843c8f81cf52900200b6f5116a88b0c6464461"
+            "certificate_hash": "2e97471f3438ee734b38e600a321bbf3efa25f13"
           }
         },
         {

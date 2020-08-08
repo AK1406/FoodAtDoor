@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".InfoAfterGoogle"
-    android:background="@drawable/signback">
+    android:background="@drawable/signback"
+    tools:context=".InfoAfterGoogle">
 
 
     <LinearLayout
@@ -57,23 +57,23 @@
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_pin"
             android:hint="Pin code"
-            android:textColor="#fff"
             android:inputType="number"
             android:maxLength="6"
+            android:textColor="#fff"
             android:textColorHint="#D8B5B5"
             android:textSize="18sp" />
 
         <TextView
             android:id="@+id/email_edt_text"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_email"
             android:hint="@string/email"
             android:importantForAutofill="no"
             android:inputType="textEmailAddress"
+            android:text="18sp"
             android:textColor="#fff"
             android:textColorHint="#D8B5B5" />
-
 
 
         <Button
