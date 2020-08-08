@@ -1,18 +1,23 @@
 package com.example.foodatdoor
 
+import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
@@ -21,19 +26,22 @@ import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.fragment_profile.*
 import java.io.ByteArrayOutputStream
+import java.io.IOException
+
 
 class ProfileFragment : Fragment() {
 
     private lateinit var auth: FirebaseAuth
     private val DEFAULT_IMAGE_URL = "https://picsum.photos/200"
     private lateinit var imageUri: Uri
-    private val REQUEST_IMAGE_CAPTURE = 100
+    private val IMAGE_CAPTURE_CODE = 101
+    private val PERMISSION_CODE = 1000
     private val user = FirebaseAuth.getInstance().currentUser
     private lateinit var myRef: DatabaseReference
     private var userId: String? = null
     private var person: ProfileModel? = null
     private lateinit var edit: ImageView
-    private lateinit var delete: Button
+    private lateinit var pic:ImageView
 
     companion object {
         private val TAG = ProfileFragment::class.java.simpleName
@@ -59,8 +67,9 @@ class ProfileFragment : Fragment() {
                 }
                 UserName.text = person?.name
                 UserPhnNo.text = person?.phnNo
-                UserEmail.text = person?.email
                 UserAddress.text=person?.address
+                UserPinCode.text=person?.pinCode
+                UserEmail.text = person?.email
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -79,6 +88,7 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        pic=view.findViewById(R.id.profilePic)
         user?.let { user ->
             Glide.with(this)
                 .load(user.photoUrl)
@@ -93,8 +103,28 @@ class ProfileFragment : Fragment() {
                 text_verified.visibility = View.INVISIBLE
             }
 
-            profilePic.setOnClickListener {
-                takePictureIntent()
+            pic.setOnClickListener {
+                val builder = AlertDialog.Builder(context)
+                //set title for alert dialog
+                builder.setTitle(R.string.dialogTitle)
+                //set message for alert dialog
+                builder.setMessage(R.string.dialogMessage)
+                builder.setPositiveButton("Camera"){dialogInterface, which ->
+                    takePictureIntent()
+                }
+                //performing cancel action
+                builder.setNeutralButton("Cancel"){dialogInterface , which ->
+                }
+                //performing negative action
+                builder.setNegativeButton("Gallery"){dialogInterface, which ->
+                     pickPictureIntent()
+                }
+
+                val alertDialog: AlertDialog = builder.create()
+                // Set other dialog properties
+                alertDialog.setCancelable(false)
+                alertDialog.show()
+
             }
 
             update.setOnClickListener {
@@ -114,16 +144,14 @@ class ProfileFragment : Fragment() {
                     .addOnCompleteListener { task ->
                         // progressbar.visibility = View.INVISIBLE
                         if (task.isSuccessful) {
-                            // Toast.makeText(activity,"Everything is Updated",Toast.LENGTH_LONG).show()
-                        } else {
-                            //  Toast.makeText(activity,task.exception?.message!!,Toast.LENGTH_LONG).show()
+                             Toast.makeText(activity,"Profile Pic is Updated",Toast.LENGTH_LONG).show()
                         }
                     }
             }
 
             text_not_verified.setOnClickListener {
-                user?.sendEmailVerification()
-                    ?.addOnCompleteListener {
+                user.sendEmailVerification()
+                    .addOnCompleteListener {
                         if (it.isSuccessful) {
                             Toast.makeText(activity, "Verification email sent ", Toast.LENGTH_LONG).show()
                         } else {
@@ -146,28 +174,61 @@ class ProfileFragment : Fragment() {
         edit_info.setOnClickListener {
             updateInfo(person!!)
         }
+    }
 
-        delete = view.findViewById(R.id.delete)
-        delete.setOnClickListener {
-            remove(person!!)
+    private fun takePictureIntent() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (context?.checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED ||
+                context?.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                val permission = arrayOf(
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+                requestPermissions(permission,PERMISSION_CODE)
+            } else {
+                Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { pictureIntent ->
+                    pictureIntent.resolveActivity(activity?.packageManager!!)?.also {
+                        startActivityForResult(pictureIntent,IMAGE_CAPTURE_CODE)
+
+                    }
+                }
+            }
+        } else {
+            Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { pictureIntent ->
+                pictureIntent.resolveActivity(activity?.packageManager!!)?.also {
+                    startActivityForResult(pictureIntent,IMAGE_CAPTURE_CODE)
+
+                }
+            }
         }
 
     }
 
-    private fun takePictureIntent() {
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { pictureIntent ->
-            pictureIntent.resolveActivity(activity?.packageManager!!)?.also {
-                startActivityForResult(pictureIntent, REQUEST_IMAGE_CAPTURE)
-            }
-        }
+    private fun pickPictureIntent(){
+
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), 12)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == IMAGE_CAPTURE_CODE && resultCode == Activity.RESULT_OK) {
             val imageBitmap = data?.extras?.get("data") as Bitmap
             uploadImageAndSaveUri(imageBitmap)
+        }   else if (requestCode == 12 && resultCode == Activity.RESULT_OK && data != null) {
+            val imageuri = data.data
+            profilePic.setImageURI(imageuri)
+            try {
+                val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver, imageuri)
+                uploadImageAndSaveUri(bitmap)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
         }
+
     }
 
     private fun uploadImageAndSaveUri(bitmap: Bitmap) {
@@ -212,11 +273,13 @@ class ProfileFragment : Fragment() {
         val phnUpdate: EditText = view.findViewById(R.id.update_phn)
         val emailUpdate: EditText = view.findViewById(R.id.update_email)
         val addressUpdate:EditText=view.findViewById(R.id.update_address)
+        val areaCodeUpdate:EditText=view.findViewById(R.id.update_pin)
 
         nameUpdate.setText(User.name)
         phnUpdate.setText(User.phnNo)
         emailUpdate.setText(User.email)
         addressUpdate.setText(User.address)
+        areaCodeUpdate.setText(User.pinCode)
 
         builder.setView(view)
 
@@ -227,8 +290,9 @@ class ProfileFragment : Fragment() {
 
                 val name = nameUpdate.text.toString().trim()
                 val phn = phnUpdate.text.toString()
-                val email = emailUpdate.text.toString()
                 val address = addressUpdate.text.toString()
+                val areaPin=areaCodeUpdate.text.toString()
+                val email = emailUpdate.text.toString()
 
                 if (name.isEmpty()) {
                     nameUpdate.error = " Please enter a name"
@@ -250,12 +314,18 @@ class ProfileFragment : Fragment() {
 
                 if (address.isEmpty()) {
                     emailUpdate.error = " Please enter Address"
-                    emailUpdate.requestFocus()
+                    addressUpdate.requestFocus()
+                    return
+                }
+
+                if (areaPin.isEmpty()) {
+                    emailUpdate.error = " Please enter pin Code"
+                    areaCodeUpdate.requestFocus()
                     return
                 }
 
 
-                val person = ProfileModel(User.id, name, phn,address,email)
+                val person = ProfileModel(User.id, name, phn,address,areaPin,email)
                 userId = user?.uid
                 upUser.child(userId!!).setValue(person)
                 Toast.makeText(context, "Updated successfully", Toast.LENGTH_SHORT).show()
@@ -269,49 +339,22 @@ class ProfileFragment : Fragment() {
 
                 val name = nameUpdate.text.toString().trim()
                 val phn = phnUpdate.text.toString()
-                val email = emailUpdate.text.toString()
                 val address = addressUpdate.text.toString()
+                val areaPin=areaCodeUpdate.text.toString()
+                val email = emailUpdate.text.toString()
 
 
-                val person = ProfileModel(User.id, name, phn,address,email)
+                val person = ProfileModel(User.id, name, phn,address,areaPin,email)
                 userId = user?.uid
                 upUser.child(userId!!).setValue(person)
                 Toast.makeText(context, "Information remains as it is", Toast.LENGTH_SHORT).show()
             }
 
-
         })
 
         val alert = builder.create()
         alert.show()
-
     }
 
-
-    private fun remove(User: ProfileModel) {
-        userId = user?.uid
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle("Account deleted!")
-        builder.setMessage("Really want to delete account ?")
-        builder.setPositiveButton("YES"){text,Listener->
-            val addedUser = FirebaseDatabase.getInstance().getReference("profile").child(userId!!)
-            addedUser.removeValue()
-            val user = FirebaseAuth.getInstance().currentUser!!
-            user.delete()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Toast.makeText(context,"Account Deleted !",Toast.LENGTH_LONG).show()
-                        val intent =Intent(context,LoginActivity::class.java)
-                        startActivity(intent)
-                    }
-                }
-        }
-        builder.setNegativeButton("CANCEL"){ text,Listener->
-            Toast.makeText(context,"Account Not Deleted !",Toast.LENGTH_LONG).show()
-        }
-        builder.create()
-        builder.show()
-
-    }
 }
 

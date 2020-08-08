@@ -55,5 +55,8 @@
     <string name="can_t_find_any_restaurant_with_that_name">Can\'t find restaurant with the name</string>
     <string name="no_orders_placed">No Order Placed</string>
     <string name="your_previous_orders">Your Previous Orders</string>
+    <string name="preference_file_name">your Information</string>
+    <string name="dialogTitle">Choose From :</string>
+    <string name="dialogMessage">upload profile pic</string>
 
 </resources>

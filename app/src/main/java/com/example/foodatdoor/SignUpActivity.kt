@@ -19,13 +19,13 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var signUpBtn: Button
     private lateinit var loginBtn: TextView
-
     private lateinit var name: EditText
     private lateinit var phnNo: EditText
     private lateinit var emailEt: EditText
     private lateinit var passwordEt: EditText
     private lateinit var confirmPassword:EditText
-    private lateinit var Daddress:EditText
+    private lateinit var address:EditText
+    private lateinit var pinCode:EditText
 
     private var userId: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +41,8 @@ class SignUpActivity : AppCompatActivity() {
         confirmPassword=findViewById(R.id.confirm_pass_edt_text)
         loginBtn = findViewById(R.id.login_link)
         signUpBtn = findViewById(R.id.signup_btn)
-        Daddress=findViewById(R.id.address)
+        address=findViewById(R.id.address)
+        pinCode=findViewById(R.id.pin)
 
 
         /*** Authentication Part to authenticate user with his/her email id and password ***/
@@ -54,9 +55,10 @@ class SignUpActivity : AppCompatActivity() {
             val email: String = emailEt.text.toString()
             val password: String = passwordEt.text.toString()
             val confirmPass:String=confirmPassword.text.toString()
-            val deliveryAddress:String=Daddress.text.toString()
+            val deliveryAddress:String=address.text.toString()
+            val pin:String=pinCode.text.toString()
             if (name.isEmpty() || phnNo.isEmpty()||TextUtils.isEmpty(email) || TextUtils.isEmpty(password)
-                ||confirmPass.isEmpty()||deliveryAddress.isEmpty()) { //checking email and password not to be empty
+                ||confirmPass.isEmpty()||deliveryAddress.isEmpty()||pin.isEmpty()) { //checking email and password not to be empty
                 Toast.makeText(this, "Please fill all the fields", Toast.LENGTH_LONG).show()
             } else {
                 if (password.length < 6) { //password should be of atleast 6 characters
@@ -67,13 +69,16 @@ class SignUpActivity : AppCompatActivity() {
                     if(password == confirmPass){
                         Toast.makeText(this,"Password is incorrect!",Toast.LENGTH_LONG).show()
                     }
+                    if(pin.length != 6){
+                        Toast.makeText(this,"Pin is incorrect! ",Toast.LENGTH_LONG).show()
+                    }
                 }
                 auth.createUserWithEmailAndPassword(email, password) //create instance/object with entered email & password
                     .addOnCompleteListener(this, OnCompleteListener { task ->
                         if (task.isSuccessful) {
                             Toast.makeText(this, "Successfully Registered", Toast.LENGTH_LONG).show()
                             /**calling saveInfo (function) to save information of user to database**/
-                            saveInfo(name,phnNo,deliveryAddress) //passing registered email id and dob
+                            saveInfo(name,phnNo,deliveryAddress,pin) //passing registered email id and dob
 
                         } else {
                             Toast.makeText(this, "Registration Failed", Toast.LENGTH_LONG).show()
@@ -103,7 +108,7 @@ class SignUpActivity : AppCompatActivity() {
 
     /** save user information to profile Database **/
 
-    private fun saveInfo(name:String,phnNo:String,adr:String) {
+    private fun saveInfo(name:String,phnNo:String,adr:String,areaPin:String) {
         val emailId: String
         val myRef = FirebaseDatabase.getInstance().getReference("profile") // making reference for the object of profile
         val user = FirebaseAuth.getInstance().currentUser
@@ -112,7 +117,7 @@ class SignUpActivity : AppCompatActivity() {
         emailId = user.email.toString()
         val subEmail = emailId.substringBefore("@")  //abc123@gmail.com -> abc123(substring of email id)
         val profileId = myRef.push().key //generating random key
-        val profileInfo = profileId?.let { ProfileModel(subEmail,name,phnNo,adr,emailId)
+        val profileInfo = profileId?.let { ProfileModel(subEmail,name,phnNo,adr,areaPin,emailId)
         }//passing taken information to a class constructor of ProfileModel
         if (profileId != null) {
             //set the taken information

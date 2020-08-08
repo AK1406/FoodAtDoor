@@ -45,16 +45,6 @@
             android:inputType="number" />
 
         <EditText
-            android:id="@+id/update_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:textColor="#101010"
-            android:textSize="20sp"
-            android:hint="Email"
-            android:inputType="textEmailAddress" />
-
-        <EditText
             android:id="@+id/update_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -62,6 +52,27 @@
             android:textColor="#101010"
             android:textSize="20sp"
             android:hint="Delivery Address"
+            android:inputType="textEmailAddress" />
+
+
+        <EditText
+            android:id="@+id/update_pin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:textColor="#101010"
+            android:textSize="20sp"
+            android:hint="Pin Code"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/update_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:textColor="#101010"
+            android:textSize="20sp"
+            android:hint="Email"
             android:inputType="textEmailAddress" />
 
 

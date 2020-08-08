@@ -26,7 +26,6 @@ import kotlinx.android.synthetic.main.activity_login.*
 class LoginActivity : AppCompatActivity() , View.OnClickListener{
 
     private  var auth: FirebaseAuth?=null
-    private var mCallbackManager: CallbackManager? = null
     lateinit var gso: GoogleSignInOptions
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var emailEt: EditText
@@ -60,8 +59,6 @@ class LoginActivity : AppCompatActivity() , View.OnClickListener{
         /**getting instance of firebase auth so that we can compare email and password to login**/
         auth = FirebaseAuth.getInstance()
 
-        // Initialize Facebook Login button
-        mCallbackManager = CallbackManager.Factory.create()
 
         emailEt = findViewById(R.id.email_edt_text)
         passwordEt = findViewById(R.id.pass_edt_text)
@@ -147,8 +144,6 @@ class LoginActivity : AppCompatActivity() , View.OnClickListener{
     override fun onClick(v: View) {
         when (v.id) {
             google_login_btn.id -> signIn()
-            //  signOutButton.id -> signOut()
-            //disconnectButton.id -> revokeAccess()
         }
     }
 
@@ -156,6 +151,7 @@ class LoginActivity : AppCompatActivity() , View.OnClickListener{
         val signInIntent: Intent = mGoogleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
+
     /** intent after login**/
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -179,9 +175,8 @@ class LoginActivity : AppCompatActivity() , View.OnClickListener{
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val user = auth!!.currentUser
-                    val intent = Intent(this, HomePageActivity::class.java)
+                    val intent = Intent(this, InfoAfterGoogle::class.java)
                     startActivity(intent)
-
                     Toast.makeText(
                         this@LoginActivity,
                         "Authentication successful :" + user!!.email,
