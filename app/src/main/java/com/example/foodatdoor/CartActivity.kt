@@ -46,7 +46,7 @@ lateinit var selectedItemsId:ArrayList<String>
 private var userId: String? = null
 
 var totalAmount=0
-
+var ordercount=0
 var cartListItems = arrayListOf<CartItems>()
 
 class CartActivity : AppCompatActivity() {
@@ -71,7 +71,10 @@ class CartActivity : AppCompatActivity() {
         textViewOrderingFrom.text= restaurantName
 
         buttonPlaceOrder.setOnClickListener{
+            ordercount+=1
+            if(ordercount==1){
             saveOrder()
+            }
             val intent =Intent(this,PayPalActivity::class.java)
             intent.putExtra("totalBill", totalAmount.toString())
             startActivity(intent)

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -45,6 +46,8 @@ class PayPalActivity : AppCompatActivity() {
             getPayment()
         }
 
+        setToolBar()
+
         val intent = Intent(this, PayPalService::class.java)
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config)
         startService(intent)
@@ -54,6 +57,23 @@ class PayPalActivity : AppCompatActivity() {
     override fun onDestroy() {
         stopService(Intent(this, PayPalService::class.java))
         super.onDestroy()
+    }
+
+    private fun setToolBar(){
+        supportActionBar?.title="Order Payment"
+        supportActionBar?.setHomeButtonEnabled(true)//enables the button on the tool bar
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)//displays the icon on the button
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back_arrow)//change icon to custom
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId){
+            android.R.id.home->{
+                super.onBackPressed()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun getPayment() {
