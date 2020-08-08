@@ -17,6 +17,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
@@ -43,6 +44,12 @@ class ProfileFragment : Fragment() {
     private lateinit var edit: ImageView
     private lateinit var pic:ImageView
 
+    private lateinit var U_name:TextView
+    private lateinit var U_phnNo:TextView
+    private lateinit var U_address:TextView
+    private lateinit var U_pinCode:TextView
+    private lateinit var U_email:TextView
+
     companion object {
         private val TAG = ProfileFragment::class.java.simpleName
         fun newInstance(): Fragment {
@@ -52,6 +59,21 @@ class ProfileFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_profile, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        U_name =view.findViewById(R.id.UserName)
+        U_phnNo=view.findViewById(R.id.UserPhnNo)
+        U_address=view.findViewById(R.id.UserAddress)
+        U_pinCode=view.findViewById(R.id.UserPinCode)
+        U_email=view.findViewById(R.id.UserEmail)
         // get reference to 'profile' node
         myRef = FirebaseDatabase.getInstance().getReference("profile")
         // add it only if it is not saved to database
@@ -65,11 +87,11 @@ class ProfileFragment : Fragment() {
                     Log.e(TAG, "User data is null!")
                     return
                 }
-                UserName.text = person?.name
-                UserPhnNo.text = person?.phnNo
-                UserAddress.text=person?.address
-                UserPinCode.text=person?.pinCode
-                UserEmail.text = person?.email
+                U_name.text = person?.name
+                U_phnNo.text = person?.phnNo
+                U_address.text=person?.address
+                U_pinCode.text=person?.pinCode
+                U_email.text = person?.email
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -77,17 +99,6 @@ class ProfileFragment : Fragment() {
                 Log.e(TAG, "Failed to read user", error.toException())
             }
         })
-
-
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_profile, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         pic=view.findViewById(R.id.profilePic)
         user?.let { user ->
             Glide.with(this)
