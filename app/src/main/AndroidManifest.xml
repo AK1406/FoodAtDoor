@@ -29,9 +29,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ConfirmationActivity"/>
+        <activity android:name=".RozorPayActivity"/>
+        <activity android:name=".ConfirmationActivity" />
         <activity android:name=".PayPalActivity" />
-       <activity android:name=".InfoAfterGoogle"/>
+        <activity android:name=".InfoAfterGoogle" />
         <activity android:name=".OrderPlacedActivity" />
         <activity
             android:name=".CartActivity"
@@ -57,6 +58,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_live_VPhaSQ2ckeB3zk" />
     </application>
 
 </manifest>

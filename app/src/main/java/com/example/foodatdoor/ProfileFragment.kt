@@ -155,7 +155,7 @@ class ProfileFragment : Fragment() {
                     .addOnCompleteListener { task ->
                         // progressbar.visibility = View.INVISIBLE
                         if (task.isSuccessful) {
-                             Toast.makeText(activity,"Profile Pic is Updated",Toast.LENGTH_LONG).show()
+                           //  Toast.makeText(activity,"Profile Pic is Updated",Toast.LENGTH_LONG).show()
                         }
                     }
             }

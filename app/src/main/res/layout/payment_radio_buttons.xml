@@ -15,8 +15,8 @@
         <RadioButton
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/radio_low_to_high"
-            android:text="Cost(Low to High)"
+            android:id="@+id/payPal"
+            android:text="PayPal"
             android:padding="5dp"
             android:layout_margin="5dp"
             android:textSize="20sp"/>
@@ -24,8 +24,8 @@
         <RadioButton
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/radio_high_to_low"
-            android:text="Cost(High to Low)"
+            android:id="@+id/razorPay"
+            android:text="RazorPay"
             android:padding="5dp"
             android:layout_margin="5dp"
             android:textSize="20sp"/>
@@ -33,8 +33,8 @@
         <RadioButton
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/radio_rating"
-            android:text="Rating"
+            android:id="@+id/cash"
+            android:text="Cash on Delivery"
             android:padding="5dp"
             android:layout_margin="5dp"
             android:textSize="20sp"/>

@@ -25,6 +25,8 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.payment_radio_buttons.view.*
+import kotlinx.android.synthetic.main.sort_radio_buttons.view.*
 import org.json.JSONException
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -48,6 +50,7 @@ private var userId: String? = null
 var totalAmount=0
 var ordercount=0
 var cartListItems = arrayListOf<CartItems>()
+lateinit var radioButtonView:View
 
 class CartActivity : AppCompatActivity() {
 
@@ -70,17 +73,51 @@ class CartActivity : AppCompatActivity() {
         //set the restaurant name
         textViewOrderingFrom.text= restaurantName
 
-        buttonPlaceOrder.setOnClickListener{
-            ordercount+=1
-            if(ordercount==1){
-            saveOrder()
-            }
-            val intent =Intent(this,PayPalActivity::class.java)
-            intent.putExtra("totalBill", totalAmount.toString())
-            startActivity(intent)
+        buttonPlaceOrder.setOnClickListener {
+            radioButtonView = View.inflate(
+                this,
+                R.layout.payment_radio_buttons,
+                null
+            )//radiobutton view for sorting display
+            androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Payment Mode?")
+                .setView(radioButtonView)
+                .setPositiveButton("OK") { text, listener ->
+                    if (radioButtonView.payPal.isChecked) {
+                        ordercount += 1
+                        if (ordercount == 1) {
+                            saveOrder()
+                        }
+                        val intent = Intent(this, PayPalActivity::class.java)
+                        intent.putExtra("totalBill", totalAmount.toString())
+                        startActivity(intent)
+                    }
 
+                    if (radioButtonView.razorPay.isChecked) {
+                        ordercount += 1
+                        if (ordercount == 1) {
+                            saveOrder()
+                        }
+                        val intent = Intent(this, RozorPayActivity::class.java)
+                        intent.putExtra("totalBill", totalAmount.toString())
+                        startActivity(intent)
+
+                    }
+                    if (radioButtonView.cash.isChecked) {
+                        ordercount += 1
+                        if (ordercount == 1) {
+                            saveOrder()
+                        }
+                        val intent = Intent(this, OrderPlacedActivity::class.java)
+                        startActivity(intent)
+                    }
+                }
+                .setNegativeButton("CANCEL") { text, listener ->
+
+                }
+                .create()
+                .show()
         }
-
 
         setToolBar()
 
@@ -210,12 +247,14 @@ class CartActivity : AppCompatActivity() {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back_arrow)//change icon to custom
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         when(item.itemId){
             android.R.id.home->{
                 super.onBackPressed()
             }
+
         }
         return super.onOptionsItemSelected(item)
     }
@@ -283,7 +322,7 @@ class CartActivity : AppCompatActivity() {
         return formatter.format(this)
     }
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun saveOrder(){
+     fun saveOrder(){
         val myRef = FirebaseDatabase.getInstance().getReference("Orders") // making reference for the object of profile
         val user = FirebaseAuth.getInstance().currentUser
         userId = user!!.uid

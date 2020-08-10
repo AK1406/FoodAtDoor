@@ -219,7 +219,6 @@ class DashboardFragment() : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         when(item.itemId){
-
             R.id.action_sort->{
                 radioButtonView= View.inflate(context,R.layout.sort_radio_buttons,null)//radiobutton view for sorting display
                 androidx.appcompat.app.AlertDialog.Builder(activity as Context)

@@ -19,8 +19,6 @@ class PayPalActivity : AppCompatActivity() {
     private lateinit var  buttonPay:Button
     private lateinit var editTextAmount:TextView
     private lateinit var paymentAmount:String
-
-    private lateinit var cashOnDelivery:Button
     private var billAmount:String=""
     //Paypal intent request code to track onActivityResult method
     private val PAYPAL_REQUEST_CODE = 123
@@ -37,11 +35,7 @@ class PayPalActivity : AppCompatActivity() {
 
         buttonPay=findViewById(R.id.buttonPay)
         editTextAmount=findViewById((R.id.editTextAmount))
-        cashOnDelivery=findViewById(R.id.cash)
-        cashOnDelivery.setOnClickListener{
-            val intent =Intent(this,OrderPlacedActivity::class.java)
-            startActivity(intent)
-        }
+
 
 
         billAmount = intent.getStringExtra("totalBill")
