@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission. ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -29,28 +30,56 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RozorPayActivity"/>
-        <activity android:name=".ConfirmationActivity" />
-        <activity android:name=".PayPalActivity" />
-        <activity android:name=".InfoAfterGoogle" />
-        <activity android:name=".OrderPlacedActivity" />
+        <activity android:name=".RozorPayActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".ConfirmationActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".PayPalActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".InfoAfterGoogle"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".OrderPlacedActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"/>
         <activity
             android:name=".CartActivity"
-            android:label="My Cart" />
+            android:label="My Cart"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"/>
         <activity
             android:name=".DescriptionActivity"
-            android:label="Menu" />
-        <activity android:name=".VerifyPhone" />
-        <activity android:name=".UpdatePasswordActivity" />
-        <activity android:name=".ForgotPasswordActivity" />
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".LoginActivity" />
+            android:label="Menu"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".VerifyPhone"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".UpdatePasswordActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".ForgotPasswordActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".SignUpActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".LoginActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"/>
         <activity
             android:name=".HomePageActivity"
             android:label="Dashboard"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SplashScreen"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

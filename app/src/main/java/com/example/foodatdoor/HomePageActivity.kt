@@ -89,6 +89,7 @@ class HomePageActivity : AppCompatActivity() {
                     // navigateToFragment(SettingsFragment.newInstance())
                     val intent = Intent(this,LoginActivity::class.java)
                     startActivity(intent)
+
                 }
 
             }
@@ -98,28 +99,6 @@ class HomePageActivity : AppCompatActivity() {
             drawer_layout.closeDrawers()
             true
         }
-/*
-        //bottom menu bar listener
-        BottomNavigationView.OnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.navigation_cart -> {
-                    toolbar.title = "My Cart"
-                    navigationPosition =R.id.navigation_cart
-                    navigateToFragment(CartFragment.newInstance())
-                }
-                R.id.navigation_my_orders-> {
-                    toolbar.title = "My Orders"
-                    navigationPosition =R.id.navigation_my_orders
-                    navigateToFragment(MyOrderFragment.newInstance())
-                }
-                R.id.navigation_favourites -> {
-                    toolbar.title = "My Favourites"
-                    navigationPosition =R.id.navigation_favourites
-                    navigateToFragment(FavouritesFragment.newInstance())
-                }
-            }
-            false
-        }*/
 
         //Change navigation header information
         changeNavigationHeaderInfo()

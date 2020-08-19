@@ -38,7 +38,6 @@ class DashboardRecyclerAdapter(val context: Context, var restList: ArrayList<Res
         holder.txtRestName.text = restaurant.restName
         holder.txtRestPrice.text = "Rs "+ restaurant.restPrice +" /-"
         holder.txtRestRating.text = restaurant.restRating
-        //holder.imgRestImage.setImageResource(restaurant.restImage)
         Picasso.get().load(restaurant.restImage).error(R.drawable.defaultrest).into(holder.imgRestImage)
 
 
