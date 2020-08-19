@@ -24,7 +24,8 @@ class PayPalActivity : AppCompatActivity() {
     private val PAYPAL_REQUEST_CODE = 123
 
     //Paypal Configuration Object
-    private val config = PayPalConfiguration() // Start with mock environment.  When ready, switch to sandbox (ENVIRONMENT_SANDBOX)
+    private val config = PayPalConfiguration() // Start with mock environment.  When ready,
+        // switch to sandbox (ENVIRONMENT_SANDBOX)
             // or live (ENVIRONMENT_PRODUCTION)
             .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
             .clientId(PayPalConfig.PAYPAL_CLIENT_ID)
