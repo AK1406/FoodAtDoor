@@ -9,21 +9,35 @@ Domain of the project : Android Development
 
 Environmental Used:
 
-Room Library
+Room Library 
+
 Volley
+
 Recycler View
+
 Fragments
+
 Kotlin & xml (Language)
+
 Android Studio(IDE)
+
 Custom Api
+
 Firebase Database
+
 Firebase Storage
+
+Firebase Authentication
+
 Payment gateway integration - paypal and razorPay
  
 1.Frontend : xml to design layout of each activity and to define constant strings placed in layouts.
 
-2.Backend : Kotlin for working of each activity so that user can interact with app.
+2.Backend : Kotlin for working of each activity so that user can interact with the app.
+
                     Firebase Authentication for authenticating users (via email,phone and google signIn)
+                    
                     Firebase database for storing user information 
+                    
                     Firebase Storage for storing Users ProfilePic.
                     
