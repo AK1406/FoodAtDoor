@@ -71,7 +71,7 @@ setToolBar()
 
             val queue = Volley.newRequestQueue(this@DescriptionActivity)
 
-            val url = "http://13.235.250.119/v2/restaurants/fetch_result/$restId"
+            val url = "MENU API"
 
             val jsonObjectRequest = object : JsonObjectRequest(
                 Request.Method.GET, url, null, Response.Listener {
@@ -128,7 +128,7 @@ setToolBar()
                 override fun getHeaders(): MutableMap<String, String> {
                     val headers = HashMap<String, String>()
                     headers["Content-Type"] = "application/json"
-                    headers["token"] = "c3b5e952c8e343"  //c3b5e952c8e343
+                    headers["token"] = "YOUR TOKEN" 
                     return headers
                 }
             }
