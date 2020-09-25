@@ -94,7 +94,7 @@ class DashboardFragment() : Fragment() {
 
         val fav=view.findViewById<ImageView>(R.id.btnAddToFav)
         val queue = Volley.newRequestQueue(activity as Context)
-        val url ="http://13.235.250.119/v2/restaurants/fetch_result/"
+        val url ="YOUR RESTAURANT API"
 
         if (ConnectionManager().checkConnectivity(activity as Context)){
             val jsonObjectRequest = object : JsonObjectRequest(Request.Method.GET, url, null,
@@ -145,7 +145,7 @@ class DashboardFragment() : Fragment() {
                 override fun getHeaders(): MutableMap<String, String> {
                     val headers = HashMap<String, String>()
                     headers["Content-Type"] = "application/json"
-                    headers["token"] = "c3b5e952c8e343"  //c3b5e952c8e343
+                    headers["token"] = "YOUR TOKEN"
                     return headers
                 }
             }
